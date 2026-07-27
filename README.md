@@ -3,7 +3,7 @@
 Aplicación web progresiva (PWA) para gestionar colectas de cumpleaños mediante **Yape** (Perú).
 
 ## Funcionalidades
-
+https://wmoscol-dev.github.io/Cumple/
 - **Carga de Excel** — Lee archivos `.xlsx` con hojas por grupo/categoría. Detecta columnas automáticamente: nombre, fecha, estado, teléfono, cuota, mora.
 - **Pestañas múltiples** — Cada hoja del Excel (excepto "otros") se convierte en una pestaña navegable.
 - **Gestión de estados por persona:**
