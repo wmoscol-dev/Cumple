@@ -1146,13 +1146,13 @@ document.getElementById('exportBtn').addEventListener('click', () => {
   wrapper.appendChild(clone);
   document.body.appendChild(wrapper);
 
-  // Remover el botón exportar del clon
-  const actions = clone.querySelector('.topbar-actions');
-  if (actions) actions.remove();
+  // Remover elementos del clon que no deben salir en la imagen
+  const toRemove = clone.querySelectorAll('.topbar-actions, #upcomingBanner');
+  toRemove.forEach(el => el.remove());
 
-  // Remover banner de próximos cumpleaños
-  const upcomingClone = clone.querySelector('#upcomingBanner');
-  if (upcomingClone) upcomingClone.remove();
+  // También ocultar por si acaso
+  const upcomingClone2 = wrapper.querySelector('#upcomingBanner');
+  if (upcomingClone2) upcomingClone2.style.display = 'none';
 
   // Expandir lista
   const listClone = clone.querySelector('.list');
