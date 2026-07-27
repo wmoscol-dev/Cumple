@@ -1142,17 +1142,20 @@ document.getElementById('exportBtn').addEventListener('click', () => {
   const wrapper = document.createElement('div');
   wrapper.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:390px;background:#F4EEFB;font-family:Inter,sans-serif;z-index:-1;';
 
+  // Clonar y luego restaurar el banner original para no afectar la UI
+  const prevBannerDisplay = document.getElementById('upcomingBanner')?.style?.display;
+  const origBanner = document.getElementById('upcomingBanner');
+  if (origBanner) origBanner.style.display = 'none';
+
   const clone = app.cloneNode(true);
   wrapper.appendChild(clone);
   document.body.appendChild(wrapper);
 
-  // Remover elementos del clon que no deben salir en la imagen
-  const toRemove = clone.querySelectorAll('.topbar-actions, #upcomingBanner');
-  toRemove.forEach(el => el.remove());
+  if (origBanner && prevBannerDisplay) origBanner.style.display = prevBannerDisplay;
 
-  // También ocultar por si acaso
-  const upcomingClone2 = wrapper.querySelector('#upcomingBanner');
-  if (upcomingClone2) upcomingClone2.style.display = 'none';
+  // Remover el banner del clon para que no salga en la imagen
+  const bannerClone = clone.querySelector('#upcomingBanner');
+  if (bannerClone) bannerClone.remove();
 
   // Expandir lista
   const listClone = clone.querySelector('.list');
