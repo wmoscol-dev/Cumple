@@ -1,6 +1,6 @@
 {
   "name": "Cumples Yape",
-  "short_name": "CumplesYape",
+  "short_name": "CY",
   "description": "Control de recaudo para cumpleaños vía Yape",
   "start_url": "/Cumple/index.html",
   "scope": "/Cumple/",
