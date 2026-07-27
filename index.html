@@ -1150,6 +1150,10 @@ document.getElementById('exportBtn').addEventListener('click', () => {
   const actions = clone.querySelector('.topbar-actions');
   if (actions) actions.remove();
 
+  // Remover banner de próximos cumpleaños
+  const upcomingClone = clone.querySelector('#upcomingBanner');
+  if (upcomingClone) upcomingClone.remove();
+
   // Expandir lista
   const listClone = clone.querySelector('.list');
   if (listClone) {
