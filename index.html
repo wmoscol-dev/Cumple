@@ -41,17 +41,52 @@
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    background:
-      radial-gradient(circle at 20% 10%, #3A1758 0%, transparent 55%),
-      radial-gradient(circle at 85% 90%, #0E2E2A 0%, transparent 50%),
-      #0B0512;
+    background:#0B0512;
     font-family:'Inter',sans-serif;
     padding:32px 16px;
+    overflow-x:hidden;
     overflow-y:auto;
+    position:relative;
   }
+
+  /* ---------- FONDO ANIMADO (aurora + orbes) ---------- */
+  .aurora{
+    position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  }
+  .aurora span{
+    position:absolute; border-radius:50%; filter:blur(70px); opacity:.5;
+    will-change:transform;
+  }
+  .aurora span:nth-child(1){
+    width:480px; height:480px; top:-160px; left:-140px;
+    background:radial-gradient(circle, #7E2FBF, transparent 70%);
+    animation:auroraFloat1 16s ease-in-out infinite;
+  }
+  .aurora span:nth-child(2){
+    width:420px; height:420px; bottom:-140px; right:-120px;
+    background:radial-gradient(circle, #00C9B7, transparent 70%);
+    animation:auroraFloat2 20s ease-in-out infinite;
+  }
+  .aurora span:nth-child(3){
+    width:360px; height:360px; top:40%; left:50%;
+    background:radial-gradient(circle, #D9A63C, transparent 70%);
+    opacity:.28;
+    animation:auroraFloat3 24s ease-in-out infinite;
+  }
+  @keyframes auroraFloat1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(70px,50px) scale(1.15)}}
+  @keyframes auroraFloat2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,-40px) scale(1.1)}}
+  @keyframes auroraFloat3{0%,100%{transform:translate(-50%,-40%) scale(1)}50%{transform:translate(-50%,-60%) scale(1.25)}}
+
+  .sparkles{position:fixed; inset:0; z-index:0; pointer-events:none;}
+  .sparkles i{
+    position:absolute; width:3px; height:3px; border-radius:50%;
+    background:rgba(255,255,255,.55); animation:sparkleTwinkle 3.5s ease-in-out infinite;
+  }
+  @keyframes sparkleTwinkle{0%,100%{opacity:0; transform:scale(.5)}50%{opacity:1; transform:scale(1.3)}}
 
   /* ---------- CONTENEDOR PRINCIPAL ---------- */
   .main-container {
+    position:relative; z-index:1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -79,13 +114,16 @@
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.2s;
+    transform:scale(1);
+    transition: background .25s, color .25s, border-color .25s, box-shadow .25s, transform .25s cubic-bezier(.34,1.56,.64,1);
   }
+  .tab-btn:hover{background:rgba(255,255,255,.18);}
   .tab-btn.active {
     background: var(--gold);
     color: #1A0F26;
     border-color: var(--gold);
-    box-shadow: 0 4px 12px rgba(219, 166, 60, 0.3);
+    box-shadow: 0 4px 14px rgba(219, 166, 60, 0.45);
+    transform:scale(1.08);
   }
 
   /* ---------- PHONE FRAME ---------- */
@@ -187,9 +225,29 @@
     overflow:hidden;
     background:
       radial-gradient(circle at 88% -10%, rgba(217,166,60,.35), transparent 55%),
-      linear-gradient(135deg, #2E6B3E 0%, #1F4B2B 100%);
+      linear-gradient(135deg, #2E6B3E 0%, #1F4B2B 60%, #2E6B3E 100%);
+    background-size:100% 100%, 220% 220%;
+    animation:cardGradientShift 7s ease-in-out infinite;
     color:#EFF6EE;
-    box-shadow:0 14px 28px -10px rgba(46,107,62,.35);
+    box-shadow:0 14px 28px -10px rgba(46,107,62,.35), inset 0 0 0 1px rgba(255,255,255,.06);
+    transition:box-shadow .3s;
+  }
+  @keyframes cardGradientShift{
+    0%,100%{background-position:88% -10%, 0% 50%}
+    50%{background-position:88% -10%, 100% 50%}
+  }
+  .bill-card::before{
+    content:'';
+    position:absolute; top:-20%; left:-60%; width:45%; height:140%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,.28), transparent);
+    transform:skewX(-18deg);
+    animation:cardShine 4.5s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes cardShine{
+    0%{left:-60%;}
+    45%{left:130%;}
+    100%{left:130%;}
   }
   .bill-card::after{
     content:'';
@@ -218,13 +276,28 @@
   .bill-amount{font-family:'Sora',sans-serif; font-weight:800; font-size:32px; letter-spacing:-1px;}
 
   .progress-track{
-    margin-top:10px; height:6px; border-radius:8px;
+    margin-top:10px; height:7px; border-radius:8px;
     background:rgba(255,255,255,.16); overflow:hidden;
   }
   .progress-fill{
-    height:100%; border-radius:8px;
+    height:100%; border-radius:8px; position:relative; overflow:hidden;
     background:linear-gradient(90deg, var(--gold), #F4D584);
-    transition:width .6s cubic-bezier(.4,0,.2,1);
+    box-shadow:0 0 10px rgba(217,166,60,.7);
+    transition:width .7s cubic-bezier(.34,1.56,.64,1), background .5s, box-shadow .5s;
+  }
+  .progress-fill::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+    animation:progressShine 1.8s linear infinite;
+  }
+  @keyframes progressShine{
+    0%{transform:translateX(-100%);}
+    100%{transform:translateX(100%);}
+  }
+  .progress-fill.complete{
+    background:linear-gradient(90deg, var(--ok), #7CF0BB);
+    box-shadow:0 0 14px rgba(61,214,140,.8);
   }
   .progress-labels{
     display:flex; justify-content:space-between; margin-top:5px;
@@ -258,10 +331,16 @@
     padding:8px 8px;
     border-radius:16px;
     margin:2px 0;
-    transition:background .25s;
+    transition:background .25s, transform .2s;
     position:relative;
+    animation:rowIn .45s cubic-bezier(.22,1,.36,1) backwards;
   }
-  
+  .row:hover{background:rgba(91,31,140,.05);}
+  @keyframes rowIn{
+    from{opacity:0; transform:translateY(10px) scale(.98);}
+    to{opacity:1; transform:translateY(0) scale(1);}
+  }
+
   /* Destacar cumpleañero (Estado 0) */
   .row.birthday-highlight {
     background: linear-gradient(90deg, rgba(217,166,60,.28), rgba(217,166,60,.06));
@@ -271,13 +350,22 @@
   }
   .row.birthday-highlight .avatar{
     width:48px; height:48px; font-size:16px;
-    box-shadow:0 0 0 3px #fff, 0 0 0 5px var(--gold);
+    animation:avatarPulse 2.2s ease-in-out infinite;
   }
-  
+  @keyframes avatarPulse{
+    0%,100%{box-shadow:0 0 0 3px #fff, 0 0 0 5px var(--gold);}
+    50%{box-shadow:0 0 0 3px #fff, 0 0 0 8px rgba(217,166,60,.55);}
+  }
+
   .crown{
     position:absolute; top:-11px; left:22px; font-size:15px;
     transform:rotate(-14deg);
     filter:drop-shadow(0 2px 2px rgba(0,0,0,.25));
+    animation:crownWobble 2.4s ease-in-out infinite;
+  }
+  @keyframes crownWobble{
+    0%,100%{transform:rotate(-14deg);}
+    50%{transform:rotate(-6deg) translateY(-1px);}
   }
   .lock{
     width:46px; height:27px; border-radius:20px;
@@ -354,11 +442,19 @@
     border-radius:16px;
     font-family:'Sora',sans-serif; font-weight:700; font-size:12.5px;
     border:none; cursor:pointer;
-    transition:transform .15s;
+    position:relative; overflow:hidden;
+    transition:transform .15s, box-shadow .25s;
   }
   .btn:active{transform:scale(.96);}
-  .btn-yape{ background:linear-gradient(135deg, var(--yape-purple-2), var(--yape-purple)); color:#fff; }
-  .btn-wa{ background:#25D366; color:#fff; }
+  .btn::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%);
+    transform:translateX(-100%);
+    transition:transform .5s;
+  }
+  .btn:hover::after{transform:translateX(100%);}
+  .btn-yape{ background:linear-gradient(135deg, var(--yape-purple-2), var(--yape-purple)); color:#fff; box-shadow:0 8px 20px -8px rgba(126,47,191,.6); }
+  .btn-wa{ background:#25D366; color:#fff; box-shadow:0 8px 20px -8px rgba(37,211,102,.6); }
   
   .home-indicator{
     width:120px; height:4px; border-radius:3px; background:rgba(0,0,0,.25);
@@ -392,7 +488,10 @@
     background:#fff; border-radius:0 0 24px 24px; width:100%; flex:1; min-height:0;
     display:flex; flex-direction:column;
     box-shadow:0 24px 48px rgba(0,0,0,.4); overflow:hidden;
+    transform:translateY(-24px) scale(.97); opacity:0;
+    transition:transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s;
   }
+  .modal-overlay.open .modal-card{transform:translateY(0) scale(1); opacity:1;}
   .modal-header{
     display:flex; align-items:center; justify-content:space-between;
     padding:max(16px,env(safe-area-inset-top,16px)) 20px 12px; border-bottom:1px solid rgba(0,0,0,.06);
@@ -476,9 +575,20 @@
   .modal-empty{text-align:center;padding:48px 16px;color:#8A7AAE;font-size:13px;}
   .admin-mobile-btn{background:rgba(91,31,140,.15)!important;color:var(--yape-purple)!important;}
 
+  /* Estado estático para exportar imagen (evita capturar animaciones a medias) */
+  .exporting, .exporting *, .exporting *::before, .exporting *::after{
+    animation:none !important; transition:none !important;
+  }
+
+  .empty-icon{animation:emptyFloat 2.6s ease-in-out infinite;}
+  @keyframes emptyFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+
+  .confetti-piece{position:absolute; top:-10px; z-index:200; pointer-events:none;}
+
   @media(max-width:500px){
     html,body{height:auto;min-height:100vh;min-height:100dvh}
     body{padding:0;justify-content:flex-start;background:#0B0512;background-image:none}
+    .aurora,.sparkles{display:none}
     .main-container{gap:0;width:100%;min-height:100vh;min-height:100dvh}
     .tabs-container{max-width:100%;padding:8px 12px;background:#0B0512}
     .tab-btn{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.15);font-size:11px;padding:5px 12px}
@@ -524,6 +634,9 @@
 </style>
 </head>
 <body>
+
+<div class="aurora"><span></span><span></span><span></span></div>
+<div class="sparkles" id="sparkles"></div>
 
 <div class="main-container">
   <div class="tabs-container" id="tabsContainer"></div>
@@ -667,6 +780,64 @@ let excelFileHandle = null;
 let otrosData = null;
 let saving = false;
 let tabConfig = {};
+let lastPct = -1;
+
+// --- Chispas de fondo ---
+(function spawnSparkles(){
+  const box = document.getElementById('sparkles');
+  if (!box) return;
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('i');
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 3.5) + 's';
+    s.style.animationDuration = (2.5 + Math.random() * 3) + 's';
+    box.appendChild(s);
+  }
+})();
+
+// --- Animación de conteo para números ---
+function animateNumber(el, to) {
+  const from = parseFloat(el.dataset.val || el.textContent) || 0;
+  to = Math.round(to);
+  if (from === to) { el.textContent = to; el.dataset.val = to; return; }
+  const duration = 550;
+  const start = performance.now();
+  function step(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(from + (to - from) * eased);
+    if (t < 1) requestAnimationFrame(step);
+    else el.dataset.val = to;
+  }
+  requestAnimationFrame(step);
+}
+
+// --- Confetti de celebración ---
+function launchConfetti() {
+  const colors = ['#D9A63C', '#5B1F8C', '#00C9B7', '#3DD68C', '#E24C4C', '#F4D584'];
+  const container = document.getElementById('captureTarget') || document.body;
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    const size = 5 + Math.random() * 7;
+    p.className = 'confetti-piece';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.background = colors[i % colors.length];
+    p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    const duration = 1800 + Math.random() * 1400;
+    const drift = Math.random() * 160 - 80;
+    const rotate = Math.random() * 720 - 360;
+    const anim = p.animate([
+      { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+      { transform: `translate(${drift}px, 820px) rotate(${rotate}deg)`, opacity: 0 }
+    ], { duration, easing: 'cubic-bezier(.25,.46,.45,.94)' });
+    container.appendChild(p);
+    anim.onfinish = () => p.remove();
+    setTimeout(() => p.remove(), duration + 100);
+  }
+}
 
 const SERVER_PORT = 8765;
 
@@ -754,6 +925,7 @@ function render(){
         ${rightSideContent}
       </div>
     `;
+    row.style.animationDelay = Math.min(i * 45, 500) + 'ms';
     listEl.appendChild(row);
   });
 
@@ -891,12 +1063,17 @@ function updateSummary(){
   const pct = goalAmount > 0 ? Math.round((collectedAmount / goalAmount) * 100) : 0;
   const pendingCount = goalCount - validPayers.filter(p => parseInt(p.state) === 1).length;
 
-  document.getElementById('totalAmount').textContent = collectedAmount;
+  animateNumber(document.getElementById('totalAmount'), collectedAmount);
   document.getElementById('statusBadge').textContent = `${validPayers.filter(p => parseInt(p.state) === 1).length}/${goalCount} pagaron`;
-  document.getElementById('progressFill').style.width = pct + '%';
+  const fillEl = document.getElementById('progressFill');
+  fillEl.style.width = pct + '%';
+  fillEl.classList.toggle('complete', pct === 100 && goalCount > 0);
   document.getElementById('pctLabel').textContent = `${pct}% recaudado`;
   document.getElementById('pendingLabel').textContent = pendingCount === 0 ? '¡Completo! 🎉' : `${pendingCount} pendiente${pendingCount > 1 ? 's' : ''}`;
   document.getElementById('peopleCount').textContent = `${people.length} personas`;
+
+  if (pct === 100 && goalCount > 0 && lastPct !== 100) launchConfetti();
+  lastPct = pct;
 }
 
 // --- PROCESAMIENTO DEL WORKBOOK (extraído para reuso) ---
@@ -1110,7 +1287,7 @@ function renderEmptyState() {
   document.getElementById('peopleCount').textContent = '0 personas';
   document.getElementById('list').innerHTML = `
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:200px; color:#8A7AAE; font-size:13px; text-align:center; gap:8px;">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <svg class="empty-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       Sube tu archivo Excel (.xlsx) con el botón <strong>Excel</strong> de arriba
     </div>`;
   document.getElementById('tabsContainer').innerHTML = '';
@@ -1140,6 +1317,7 @@ document.getElementById('exportBtn').addEventListener('click', () => {
 
   const app = document.querySelector('.app');
   const wrapper = document.createElement('div');
+  wrapper.className = 'exporting';
   wrapper.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:390px;background:#F4EEFB;font-family:Inter,sans-serif;z-index:-1;';
 
   // Clonar y luego restaurar el banner original para no afectar la UI
