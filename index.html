@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Cumples Yape · Control de Recaudo Avanzado</title>
+<title>CumpliYape · Control de Recaudo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#5B1F8C">
+<meta name="theme-color" content="#6C3CE0">
 <meta name="description" content="Control de recaudo para cumpleaños vía Yape">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Cumples Yape">
+<meta name="apple-mobile-web-app-title" content="CumpliYape">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icons/icon-192.svg">
 <link rel="apple-touch-icon" href="icons/icon.svg">
@@ -20,17 +20,21 @@
 
 <style>
   :root{
-    --yape-purple:#5B1F8C;
-    --yape-purple-2:#7E2FBF;
-    --plin-teal:#00C9B7;
-    --bill-green:#2E6B3E;
-    --bill-green-dark:#1F4B2B;
-    --gold:#D9A63C;
-    --ink:#1A0F26;
-    --paper:#F4EEFB;
-    --muted:#B9A9D6;
-    --danger:#E24C4C;
-    --ok:#3DD68C;
+    --purple:#6C3CE0;
+    --purple-2:#8B5CF6;
+    --purple-deep:#4A2899;
+    --purple-light:#EDE6FB;
+    --green:#1FAE59;
+    --green-light:#DCFCE7;
+    --green-text:#15803D;
+    --red:#EF4444;
+    --red-light:#FEE2E2;
+    --red-text:#C81E1E;
+    --gold:#F5A623;
+    --pink:#F472B6;
+    --ink:#221933;
+    --muted:#8A7AAE;
+    --paper:#F8F6FD;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{height:100%;}
@@ -59,18 +63,18 @@
   }
   .aurora span:nth-child(1){
     width:480px; height:480px; top:-160px; left:-140px;
-    background:radial-gradient(circle, #7E2FBF, transparent 70%);
+    background:radial-gradient(circle, var(--purple-2), transparent 70%);
     animation:auroraFloat1 16s ease-in-out infinite;
   }
   .aurora span:nth-child(2){
     width:420px; height:420px; bottom:-140px; right:-120px;
-    background:radial-gradient(circle, #00C9B7, transparent 70%);
+    background:radial-gradient(circle, var(--green), transparent 70%);
     animation:auroraFloat2 20s ease-in-out infinite;
   }
   .aurora span:nth-child(3){
     width:360px; height:360px; top:40%; left:50%;
-    background:radial-gradient(circle, #D9A63C, transparent 70%);
-    opacity:.28;
+    background:radial-gradient(circle, var(--gold), transparent 70%);
+    opacity:.25;
     animation:auroraFloat3 24s ease-in-out infinite;
   }
   @keyframes auroraFloat1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(70px,50px) scale(1.15)}}
@@ -93,39 +97,6 @@
     gap: 16px;
   }
 
-  /* ---------- TABS DE PESTAÑAS ---------- */
-  .tabs-container {
-    display: flex;
-    gap: 8px;
-    max-width: 390px;
-    overflow-x: auto;
-    padding: 4px 8px;
-    scrollbar-width: none;
-  }
-  .tabs-container::-webkit-scrollbar { display: none; }
-  .tab-btn {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-family: 'Sora', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transform:scale(1);
-    transition: background .25s, color .25s, border-color .25s, box-shadow .25s, transform .25s cubic-bezier(.34,1.56,.64,1);
-  }
-  .tab-btn:hover{background:rgba(255,255,255,.18);}
-  .tab-btn.active {
-    background: var(--gold);
-    color: #1A0F26;
-    border-color: var(--gold);
-    box-shadow: 0 4px 14px rgba(219, 166, 60, 0.45);
-    transform:scale(1.08);
-  }
-
   /* ---------- PHONE FRAME ---------- */
   .device{
     position:relative;
@@ -136,7 +107,7 @@
     border-radius:56px;
     padding:14px;
     box-shadow:
-      0 60px 120px -30px rgba(91,31,140,.45),
+      0 60px 120px -30px rgba(108,60,224,.45),
       0 20px 40px -10px rgba(0,0,0,.6),
       inset 0 0 0 2px rgba(255,255,255,.04);
   }
@@ -150,8 +121,6 @@
     flex-direction:column;
     box-shadow:inset 0 0 0 1px rgba(0,0,0,.35);
   }
-  
-
 
   .notch{
     position:absolute; top:0; left:50%; transform:translateX(-50%);
@@ -178,156 +147,187 @@
     min-height:0;
     padding-top: 4px;
   }
-  .app-topbar{
+  .app-title-row{
     display:flex; align-items:center; justify-content:space-between;
-    padding:6px 20px 2px;
+    padding:8px 16px 2px;
   }
   .app-title{
-    font-family:'Sora',sans-serif; font-weight:800; font-size:15px;
-    color:var(--ink); letter-spacing:.2px;
+    font-family:'Sora',sans-serif; font-weight:800; font-size:17px;
+    color:var(--purple); letter-spacing:.1px;
     display:flex; align-items:center; gap:6px;
   }
-  .app-title .dot{width:7px;height:7px;border-radius:50%;background:#2E6B3E;box-shadow:0 0 0 3px rgba(46,107,62,.25);}
-  
-  .topbar-actions {
-    display: flex;
-    gap: 6px;
-  }
-  .excel-btn-label, .export-btn {
-    padding: 6px 10px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    border: none;
-    transition: background 0.2s;
-  }
-  .excel-btn-label {
-    background: rgba(46, 107, 62, 0.15);
-    color: var(--bill-green);
-  }
-  .excel-btn-label:hover { background: rgba(46, 107, 62, 0.25); }
-  .export-btn {
-    background: rgba(217, 166, 60, 0.15);
-    color: #b58116;
-  }
-  .export-btn:hover { background: rgba(217, 166, 60, 0.25); }
-  #excelFile { display: none; }
+  .app-title .cake{font-size:18px;}
 
+  .topbar-actions{display:flex; gap:8px;}
+  #excelFile{display:none;}
+  .icon-btn{
+    width:36px; height:36px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    border:none; background:var(--purple-light); color:var(--purple);
+    cursor:pointer; position:relative; transition:background .2s, transform .15s;
+  }
+  .icon-btn:hover{background:#E2D3FA;}
+  .icon-btn:active{transform:scale(.9);}
+  .icon-btn .dot-badge{
+    position:absolute; top:3px; right:4px; width:9px; height:9px; border-radius:50%;
+    background:var(--red); box-shadow:0 0 0 2px #fff; display:none;
+    animation:dotBadgePulse 1.6s ease-in-out infinite;
+  }
+  .icon-btn.has-pending .dot-badge{display:block;}
+  @keyframes dotBadgePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
+
+  /* ---------- TABS ---------- */
+  .tabs-container{
+    display:flex; gap:6px; overflow-x:auto; padding:8px 14px 10px;
+    scrollbar-width:none; border-bottom:1px solid rgba(108,60,224,.1);
+    margin:0 2px;
+  }
+  .tabs-container::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    background:transparent; color:var(--muted); border:none; border-radius:12px;
+    padding:7px 14px; font-family:'Sora',sans-serif; font-size:12.5px; font-weight:600;
+    cursor:pointer; white-space:nowrap; transform:scale(1);
+    transition:background .2s, color .2s, transform .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  .tab-btn:hover{background:rgba(108,60,224,.07);}
+  .tab-btn.active{background:var(--purple-light); color:var(--purple); transform:scale(1.06);}
+
+  /* ---------- BILL CARD (tarjeta del cumpleañero) ---------- */
   .bill-card{
-    margin: 8px 16px 6px;
+    margin:12px 16px 6px;
     border-radius:20px;
-    padding: 14px 16px;
+    padding:16px;
     position:relative;
     overflow:hidden;
-    background:
-      radial-gradient(circle at 88% -10%, rgba(217,166,60,.35), transparent 55%),
-      linear-gradient(135deg, #2E6B3E 0%, #1F4B2B 60%, #2E6B3E 100%);
-    background-size:100% 100%, 220% 220%;
-    animation:cardGradientShift 7s ease-in-out infinite;
-    color:#EFF6EE;
-    box-shadow:0 14px 28px -10px rgba(46,107,62,.35), inset 0 0 0 1px rgba(255,255,255,.06);
-    transition:box-shadow .3s;
-  }
-  @keyframes cardGradientShift{
-    0%,100%{background-position:88% -10%, 0% 50%}
-    50%{background-position:88% -10%, 100% 50%}
+    background:var(--purple-light);
+    box-shadow:0 10px 26px -14px rgba(108,60,224,.45), inset 0 0 0 1px rgba(255,255,255,.6);
   }
   .bill-card::before{
     content:'';
     position:absolute; top:-20%; left:-60%; width:45%; height:140%;
-    background:linear-gradient(115deg, transparent, rgba(255,255,255,.28), transparent);
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,.65), transparent);
     transform:skewX(-18deg);
-    animation:cardShine 4.5s ease-in-out infinite;
+    animation:cardShine 5s ease-in-out infinite;
     pointer-events:none;
   }
-  @keyframes cardShine{
-    0%{left:-60%;}
-    45%{left:130%;}
-    100%{left:130%;}
-  }
-  .bill-card::after{
-    content:'';
-    position:absolute; inset:0;
-    background-image:
-      repeating-linear-gradient(115deg, rgba(255,255,255,.035) 0 2px, transparent 2px 26px);
-    pointer-events:none;
-  }
-  .bill-top{display:flex; align-items:center; justify-content:space-between;}
-  
-  .bill-name{
-    font-family:'Sora',sans-serif; font-weight:800; font-size:20px;
-  }
-  .bill-badge{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px; font-weight:700;
-    background:rgba(217,166,60,.9);
-    color:#2A1B03;
-    padding:4px 9px; border-radius:20px;
-    white-space:nowrap;
-  }
-  .bill-amount-row{
-    display:flex; align-items:baseline; gap:6px; margin-top:8px;
-  }
-  .bill-currency{font-family:'Sora',sans-serif; font-weight:700; font-size:16px; opacity:.75;}
-  .bill-amount{font-family:'Sora',sans-serif; font-weight:800; font-size:32px; letter-spacing:-1px;}
+  @keyframes cardShine{0%{left:-60%;}45%{left:130%;}100%{left:130%;}}
 
-  .progress-track{
-    margin-top:10px; height:7px; border-radius:8px;
-    background:rgba(255,255,255,.16); overflow:hidden;
+  .bill-top{display:flex; align-items:flex-start; gap:12px;}
+
+  .bill-photo-ring{position:relative; flex-shrink:0;}
+  .bill-photo{
+    width:74px; height:74px; border-radius:50%; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--purple-2); box-shadow:0 0 0 4px #fff, 0 6px 16px -6px rgba(108,60,224,.5);
+    font-size:28px;
   }
+  .bill-photo img{width:100%; height:100%; object-fit:cover;}
+  .photo-fallback{
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    color:#fff; font-family:'Sora',sans-serif; font-weight:800; font-size:20px;
+  }
+  .bill-photo-ring .dot{position:absolute; width:8px; height:8px; border-radius:50%; animation:dotFloat 3s ease-in-out infinite;}
+  .bill-photo-ring .dot:nth-child(1){top:-4px; left:6px; background:var(--gold); animation-delay:0s;}
+  .bill-photo-ring .dot:nth-child(2){top:8px; right:-6px; background:var(--green); animation-delay:.4s;}
+  .bill-photo-ring .dot:nth-child(3){bottom:-2px; left:0; background:var(--purple); animation-delay:.8s;}
+  .bill-photo-ring .dot:nth-child(4){bottom:14px; right:-6px; background:var(--pink); animation-delay:1.2s;}
+  @keyframes dotFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+
+  .bill-info{flex:1; min-width:0;}
+  .bill-name{
+    font-family:'Sora',sans-serif; font-weight:800; font-size:18px; color:var(--ink);
+    display:flex; align-items:center; gap:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .crown-mini{display:inline-block; animation:crownWobble 2.4s ease-in-out infinite;}
+  @keyframes crownWobble{0%,100%{transform:rotate(-8deg);}50%{transform:rotate(8deg) translateY(-1px);}}
+  .bill-date{font-family:'Inter',sans-serif; font-size:12px; color:var(--muted); margin-top:2px;}
+  .bill-amount-row{display:flex; align-items:baseline; gap:4px; margin-top:8px;}
+  .bill-currency{font-family:'Sora',sans-serif; font-weight:700; font-size:15px; color:var(--purple); opacity:.8;}
+  .bill-amount{font-family:'Sora',sans-serif; font-weight:800; font-size:30px; color:var(--purple); letter-spacing:-1px;}
+
+  .bill-gift{
+    width:38px; height:38px; border-radius:12px; flex-shrink:0;
+    background:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:17px; box-shadow:0 4px 12px rgba(108,60,224,.18);
+  }
+
+  .progress-row{display:flex; align-items:center; gap:8px; margin-top:14px;}
+  .progress-track{flex:1; height:7px; border-radius:8px; background:rgba(108,60,224,.15); overflow:hidden;}
   .progress-fill{
     height:100%; border-radius:8px; position:relative; overflow:hidden;
-    background:linear-gradient(90deg, var(--gold), #F4D584);
-    box-shadow:0 0 10px rgba(217,166,60,.7);
+    background:linear-gradient(90deg, var(--purple-2), var(--purple));
+    box-shadow:0 0 8px rgba(108,60,224,.5);
     transition:width .7s cubic-bezier(.34,1.56,.64,1), background .5s, box-shadow .5s;
   }
   .progress-fill::after{
-    content:'';
-    position:absolute; inset:0;
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);
     animation:progressShine 1.8s linear infinite;
   }
-  @keyframes progressShine{
-    0%{transform:translateX(-100%);}
-    100%{transform:translateX(100%);}
-  }
-  .progress-fill.complete{
-    background:linear-gradient(90deg, var(--ok), #7CF0BB);
-    box-shadow:0 0 14px rgba(61,214,140,.8);
-  }
+  @keyframes progressShine{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+  .progress-fill.complete{background:linear-gradient(90deg, var(--green), #4ADE80); box-shadow:0 0 12px rgba(31,174,89,.65);}
+  .progress-pct{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px; color:var(--purple); white-space:nowrap;}
   .progress-labels{
-    display:flex; justify-content:space-between; margin-top:5px;
-    font-family:'JetBrains Mono',monospace; font-size:10px;
-    color:rgba(239,246,238,.75);
+    display:flex; justify-content:space-between; margin-top:6px;
+    font-family:'Inter',sans-serif; font-size:11px; color:var(--muted);
+  }
+
+  /* ---------- BANNER RECORDATORIO (botón verde) ---------- */
+  .reminder-banner{
+    display:none; align-items:center; gap:10px; width:calc(100% - 32px);
+    margin:8px 16px 0; padding:12px 16px; border:none; border-radius:16px; cursor:pointer;
+    background:linear-gradient(135deg, var(--green), #16A34A);
+    color:#fff; text-align:left; box-shadow:0 10px 24px -10px rgba(31,174,89,.6);
+    transition:transform .15s, box-shadow .2s;
+  }
+  .reminder-banner:hover{transform:translateY(-1px); box-shadow:0 14px 28px -10px rgba(31,174,89,.7);}
+  .reminder-banner:active{transform:scale(.98);}
+  .reminder-banner .reminder-icon{
+    width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,.22);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .reminder-banner .reminder-text{
+    display:flex; flex-direction:column; gap:1px; flex:1; min-width:0;
+  }
+  .reminder-banner .reminder-label{
+    font-family:'Sora',sans-serif; font-size:11px; font-weight:800; letter-spacing:.6px;
+    opacity:.9;
+  }
+  .reminder-banner .reminder-details{
+    font-family:'Inter',sans-serif; font-size:12.5px; font-weight:600;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
 
   /* ---------- LIST ---------- */
   .list-head{
     display:flex; align-items:center; justify-content:space-between;
-    padding:10px 20px 4px;
+    padding:14px 20px 4px;
   }
   .list-head h2{
     margin:0; font-family:'Sora',sans-serif; font-size:12px; font-weight:700;
     color:var(--ink); text-transform:uppercase; letter-spacing:.6px;
   }
+  .list-head-right{display:flex; align-items:center; gap:8px;}
   .list-head .count{
-    font-family:'JetBrains Mono',monospace; font-size:11px; color:#7A6A98;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted);
   }
+  .gear-btn{
+    width:26px; height:26px; border-radius:8px; border:none; background:rgba(108,60,224,.08);
+    color:var(--purple); font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .2s, transform .4s;
+  }
+  .gear-btn:hover{background:rgba(108,60,224,.16); transform:rotate(45deg);}
 
   .list{
     flex:1;
     overflow-y:auto;
-    padding:0 12px 10px;
+    padding:0 12px 90px;
     scrollbar-width:none;
   }
   .list::-webkit-scrollbar{display:none;}
 
   .row{
-    display:flex; align-items:center; gap:11px;
+    display:flex; align-items:center; gap:10px;
     padding:8px 8px;
     border-radius:16px;
     margin:2px 0;
@@ -335,98 +335,113 @@
     position:relative;
     animation:rowIn .45s cubic-bezier(.22,1,.36,1) backwards;
   }
-  .row:hover{background:rgba(91,31,140,.05);}
+  .row:hover{background:rgba(108,60,224,.05);}
   @keyframes rowIn{
     from{opacity:0; transform:translateY(10px) scale(.98);}
     to{opacity:1; transform:translateY(0) scale(1);}
   }
 
   /* Destacar cumpleañero (Estado 0) */
-  .row.birthday-highlight {
-    background: linear-gradient(90deg, rgba(217,166,60,.28), rgba(217,166,60,.06));
-    box-shadow: 0 0 0 1.5px var(--gold);
-    padding: 12px 10px;
-    margin: 8px 2px;
+  .row.birthday-highlight{
+    background:linear-gradient(90deg, rgba(108,60,224,.14), rgba(108,60,224,.03));
+    box-shadow:0 0 0 1.5px var(--purple-2);
+    padding:12px 10px;
+    margin:8px 2px;
   }
   .row.birthday-highlight .avatar{
-    width:48px; height:48px; font-size:16px;
+    width:46px; height:46px; font-size:15px;
     animation:avatarPulse 2.2s ease-in-out infinite;
   }
   @keyframes avatarPulse{
-    0%,100%{box-shadow:0 0 0 3px #fff, 0 0 0 5px var(--gold);}
-    50%{box-shadow:0 0 0 3px #fff, 0 0 0 8px rgba(217,166,60,.55);}
+    0%,100%{box-shadow:0 0 0 3px #fff, 0 0 0 5px var(--purple-2);}
+    50%{box-shadow:0 0 0 3px #fff, 0 0 0 8px rgba(139,92,246,.5);}
   }
-
   .crown{
-    position:absolute; top:-11px; left:22px; font-size:15px;
+    position:absolute; top:-9px; left:20px; font-size:14px;
     transform:rotate(-14deg);
-    filter:drop-shadow(0 2px 2px rgba(0,0,0,.25));
-    animation:crownWobble 2.4s ease-in-out infinite;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.2));
+    animation:crownFloat 2.4s ease-in-out infinite;
   }
-  @keyframes crownWobble{
-    0%,100%{transform:rotate(-14deg);}
-    50%{transform:rotate(-6deg) translateY(-1px);}
-  }
-  .lock{
-    width:46px; height:27px; border-radius:20px;
-    background:rgba(217,166,60,.18);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--gold); flex-shrink:0;
-    box-shadow:inset 0 0 0 1.5px rgba(217,166,60,.5);
-  }
+  @keyframes crownFloat{0%,100%{transform:rotate(-14deg);}50%{transform:rotate(-6deg) translateY(-1px);}}
+
   .avatar{
-    width:40px; height:40px; border-radius:50%;
+    width:40px; height:40px; border-radius:50%; overflow:hidden;
     display:flex; align-items:center; justify-content:center;
     font-family:'Sora',sans-serif; font-weight:700; font-size:14px;
-    color:#fff; flex-shrink:0;
-    position:relative;
+    color:#fff; flex-shrink:0; position:relative;
   }
-  .avatar .gift{
-    position:absolute; bottom:-4px; right:-4px;
-    width:18px; height:18px; border-radius:50%;
-    background:var(--gold); color:#2A1B03;
-    display:flex; align-items:center; justify-content:center;
-    font-size:10px; box-shadow:0 0 0 2px var(--paper);
-  }
+  .avatar-img{width:100%; height:100%; object-fit:cover;}
   .row-mid{flex:1; min-width:0;}
   .row-name{
     font-family:'Sora',sans-serif; font-weight:700; font-size:14px; color:var(--ink);
-    display:flex; align-items:center; gap:6px;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .row-name .pill{
-    font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700;
-    background:var(--gold); color:#2A1B03; padding:1px 6px; border-radius:8px;
-  }
   .row-meta{
-    font-family:'JetBrains Mono',monospace; font-size:11px; color:#8A7AAE;
+    font-family:'Inter',sans-serif; font-size:11px; color:var(--muted);
     margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    display:flex; align-items:center; gap:5px;
   }
-  .row-right{display:flex; align-items:center; gap:8px; flex-shrink:0;}
+  .row-right{display:flex; align-items:center; gap:6px; flex-shrink:0;}
   .amt{
-    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12.5px;
-    min-width:34px; text-align:right;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px;
+    min-width:32px; text-align:right; color:var(--ink);
   }
-  .row.state-1 .amt { color: var(--bill-green); }
-  .row.state-2 .amt { color: var(--danger); }
 
-  .toggle{
-    width:46px; height:27px; border-radius:20px;
-    position:relative; cursor:pointer;
-    border:none; padding:0; flex-shrink:0;
-    transition:background .25s;
+  .state-pill{
+    width:32px; height:32px; flex-shrink:0; border:none; border-radius:50%;
+    font-family:'Sora',sans-serif; font-weight:800; font-size:15px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; line-height:1;
+    transition:transform .15s, box-shadow .2s;
   }
-  .toggle .knob{
-    position:absolute; top:3px; left:3px;
-    width:21px; height:21px; border-radius:50%;
-    background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.25);
-    transition:transform .25s cubic-bezier(.4,0,.2,1);
-    pointer-events:none;
+  .state-pill:active{transform:scale(.88);}
+  .state-pill.state-1{
+    background:var(--green-light); color:var(--green-text);
+    box-shadow:inset 0 0 0 1.5px rgba(31,174,89,.35);
   }
-  .toggle.on{background:var(--ok);}
-  .toggle.on .knob{transform:translateX(19px);}
-  .toggle.off{background:var(--danger);}
-  .toggle.off .knob{transform:translateX(0);}
+  .state-pill.state-2{
+    background:var(--red-light); color:var(--red-text);
+    box-shadow:inset 0 0 0 1.5px rgba(239,68,68,.35);
+  }
+  .state-pill.state-0{
+    background:rgba(108,60,224,.06);
+    box-shadow:inset 0 0 0 2px rgba(108,60,224,.25);
+  }
+
+  .kebab-btn{
+    width:24px; height:24px; border-radius:8px; border:none; background:transparent;
+    color:var(--muted); font-size:16px; font-weight:700; cursor:pointer; line-height:1;
+    display:flex; align-items:center; justify-content:center; transition:background .2s;
+  }
+  .kebab-btn:hover{background:rgba(108,60,224,.1); color:var(--purple);}
+  .kebab-menu{
+    position:absolute; background:#fff; border-radius:12px; overflow:hidden;
+    box-shadow:0 12px 30px rgba(34,25,51,.22); z-index:90; min-width:130px;
+    animation:menuPop .18s cubic-bezier(.34,1.56,.64,1) backwards;
+  }
+  @keyframes menuPop{from{opacity:0; transform:scale(.9) translateY(-6px);}to{opacity:1; transform:scale(1) translateY(0);}}
+  .kebab-menu button{
+    display:block; width:100%; text-align:left; padding:10px 14px; border:none; background:none;
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:600; color:var(--ink); cursor:pointer;
+  }
+  .kebab-menu button:hover{background:var(--purple-light);}
+  .kebab-menu button[data-act="del"]{color:var(--red-text);}
+
+  /* ---------- FAB ---------- */
+  .fab-add{
+    position:absolute; right:18px; bottom:96px; z-index:60;
+    width:52px; height:52px; border-radius:50%; border:none;
+    background:linear-gradient(135deg, var(--purple-2), var(--purple)); color:#fff;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    box-shadow:0 10px 24px -6px rgba(108,60,224,.55);
+    transition:transform .2s;
+    animation:fabPulse 2.6s ease-in-out infinite;
+  }
+  .fab-add:hover{transform:scale(1.06);}
+  .fab-add:active{transform:scale(.92);}
+  @keyframes fabPulse{
+    0%,100%{box-shadow:0 10px 24px -6px rgba(108,60,224,.55);}
+    50%{box-shadow:0 12px 30px -4px rgba(108,60,224,.8);}
+  }
 
   /* ---------- BOTTOM ACTION BAR ---------- */
   .action-bar{
@@ -453,9 +468,8 @@
     transition:transform .5s;
   }
   .btn:hover::after{transform:translateX(100%);}
-  .btn-yape{ background:linear-gradient(135deg, var(--yape-purple-2), var(--yape-purple)); color:#fff; box-shadow:0 8px 20px -8px rgba(126,47,191,.6); }
-  .btn-wa{ background:#25D366; color:#fff; box-shadow:0 8px 20px -8px rgba(37,211,102,.6); }
-  
+  .btn-yape{ background:linear-gradient(135deg, var(--purple-2), var(--purple)); color:#fff; box-shadow:0 8px 20px -8px rgba(108,60,224,.6); }
+
   .home-indicator{
     width:120px; height:4px; border-radius:3px; background:rgba(0,0,0,.25);
     margin:0 auto 6px;
@@ -475,15 +489,15 @@
     text-align:center; margin-top:8px; color:#6D5A8E; font-family:'Inter',sans-serif; font-size:12px;
   }
 
-  /* ---------- MODAL ADMIN ---------- */
+  /* ---------- MODALES ---------- */
   .modal-overlay{
-    position:absolute; inset:0; background:rgba(11,5,18,.7);
+    position:absolute; inset:0; background:rgba(34,25,51,.55);
     backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
     display:flex; flex-direction:column;
     z-index:100; padding:0; overflow:hidden;
     opacity:0; pointer-events:none; transition:opacity .3s;
   }
-  .modal-overlay.open{opacity:1;pointer-events:auto;}
+  .modal-overlay.open{opacity:1; pointer-events:auto;}
   .modal-card{
     background:#fff; border-radius:0 0 24px 24px; width:100%; flex:1; min-height:0;
     display:flex; flex-direction:column;
@@ -505,75 +519,63 @@
     background:rgba(0,0,0,.06); cursor:pointer; display:flex;
     align-items:center; justify-content:center; font-size:18px; color:#666;
   }
-  .modal-tabs{display:flex;padding:0 20px;border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0;}
-  .modal-tab{
-    padding:10px 16px; font-family:'Inter',sans-serif; font-size:13px; font-weight:500;
-    color:#8A7AAE; border:none; background:none; cursor:pointer;
-    border-bottom:2px solid transparent; transition:all .2s;
-  }
-  .modal-tab.active{color:var(--yape-purple);border-bottom-color:var(--yape-purple);font-weight:600;}
-  .modal-body{flex:1;overflow-y:auto;padding:0;scrollbar-width:thin;min-height:0;}
+  .modal-body{flex:1; overflow-y:auto; padding:0; scrollbar-width:thin; min-height:0;}
   .admin-form{
-    position:sticky; top:0; z-index:10;
-    display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:0;
-    padding:12px 12px 8px; background:var(--paper); border-radius:0;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    display:grid; grid-template-columns:1fr 1fr; gap:8px;
+    padding:16px 16px 20px; background:#fff;
   }
   .admin-form .full{grid-column:1/-1;}
   .admin-form label{
     font-family:'Inter',sans-serif; font-size:11px; font-weight:600;
-    color:#6D5A8E; display:block; margin-bottom:3px;
+    color:var(--muted); display:block; margin-bottom:3px;
   }
   .admin-form input{
-    width:100%; padding:8px 10px; border:1.5px solid rgba(0,0,0,.1);
+    width:100%; padding:8px 10px; border:1.5px solid rgba(108,60,224,.15);
     border-radius:10px; font-family:'Inter',sans-serif; font-size:13px;
-    background:#fff; outline:none; transition:border-color .2s; box-sizing:border-box;
+    background:var(--paper); outline:none; transition:border-color .2s; box-sizing:border-box;
   }
-  .admin-form input:focus{border-color:var(--yape-purple);}
-  .admin-form .btn-row{grid-column:1/-1;display:flex;gap:8px;margin-top:4px;}
+  .admin-form input:focus{border-color:var(--purple);}
+  .admin-form .btn-row{grid-column:1/-1; display:flex; gap:8px; margin-top:4px;}
   .admin-form .btn-add{
-    flex:1; padding:9px; border:none; border-radius:10px;
-    font-family:'Sora',sans-serif; font-weight:700; font-size:12px;
-    background:var(--yape-purple); color:#fff; cursor:pointer; transition:opacity .2s;
+    flex:1; padding:10px; border:none; border-radius:10px;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:12.5px;
+    background:var(--purple); color:#fff; cursor:pointer; transition:opacity .2s;
   }
   .admin-form .btn-add:hover{opacity:.85;}
   .admin-form .btn-cancel{
-    padding:9px 14px; border:none; border-radius:10px;
-    font-family:'Sora',sans-serif; font-weight:600; font-size:12px;
-    background:rgba(0,0,0,.06); color:#666; cursor:pointer; display:none;
+    padding:10px 16px; border:none; border-radius:10px;
+    font-family:'Sora',sans-serif; font-weight:600; font-size:12.5px;
+    background:rgba(0,0,0,.06); color:#666; cursor:pointer;
   }
-  .admin-form .btn-cancel.show{display:block;}
-  .admin-list{display:flex;flex-direction:column;gap:6px;padding:8px 16px 20px;}
-  .admin-item{
-    display:flex; align-items:center; gap:10px; padding:8px 10px;
-    border-radius:12px; background:var(--paper);
+  .photo-field{margin-bottom:2px;}
+  .photo-picker{display:flex; align-items:center; gap:12px;}
+  .photo-preview{
+    width:56px; height:56px; border-radius:50%; background:var(--purple-light);
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+    overflow:hidden; flex-shrink:0; box-shadow:inset 0 0 0 1.5px rgba(108,60,224,.25);
   }
-  .admin-item .info{flex:1;min-width:0;}
-  .admin-item .info .name{font-family:'Sora',sans-serif;font-weight:600;font-size:13px;color:var(--ink);}
-  .admin-item .info .meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:#8A7AAE;margin-top:1px;}
-  .admin-item .actions{display:flex;gap:4px;flex-shrink:0;}
-  .admin-item .actions button{
-    width:30px;height:30px;border-radius:8px;border:none;
-    cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;
+  .photo-preview img{width:100%; height:100%; object-fit:cover;}
+  .photo-upload-btn{
+    padding:8px 14px; border-radius:10px; background:var(--purple-light); color:var(--purple);
+    font-family:'Sora',sans-serif; font-weight:700; font-size:12px; cursor:pointer; transition:background .2s;
   }
-  .btn-edit{background:rgba(91,31,140,.1);color:var(--yape-purple);}
-  .btn-del{background:rgba(226,76,76,.1);color:var(--danger);}
-  .config-section{display:flex;flex-direction:column;gap:10px;padding:16px 16px 20px;}
+  .photo-upload-btn:hover{background:#E2D3FA;}
+
+  .config-section{display:flex; flex-direction:column; gap:10px; padding:16px 16px 20px;}
   .config-item{
     display:flex; align-items:center; gap:10px; padding:10px 12px;
     border-radius:12px; background:var(--paper);
   }
-  .config-item .tab-label{font-family:'Sora',sans-serif;font-weight:600;font-size:13px;color:var(--ink);min-width:70px;}
-  .config-item .fields{display:flex;gap:8px;flex:1;align-items:center;flex-wrap:wrap;}
-  .config-item .fields label{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#6D5A8E;}
+  .config-item .tab-label{font-family:'Sora',sans-serif; font-weight:600; font-size:13px; color:var(--ink); min-width:70px;}
+  .config-item .fields{display:flex; gap:8px; flex:1; align-items:center; flex-wrap:wrap;}
+  .config-item .fields label{font-family:'Inter',sans-serif; font-size:10px; font-weight:600; color:var(--muted);}
   .config-item .fields input{
-    width:65px; padding:6px 8px; border:1.5px solid rgba(0,0,0,.1);
+    width:65px; padding:6px 8px; border:1.5px solid rgba(108,60,224,.15);
     border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:12px;
     outline:none; box-sizing:border-box;
   }
-  .config-item .fields input:focus{border-color:var(--yape-purple);}
-  .modal-empty{text-align:center;padding:48px 16px;color:#8A7AAE;font-size:13px;}
-  .admin-mobile-btn{background:rgba(91,31,140,.15)!important;color:var(--yape-purple)!important;}
+  .config-item .fields input:focus{border-color:var(--purple);}
+  .modal-empty{text-align:center; padding:48px 16px; color:var(--muted); font-size:13px;}
 
   /* Estado estático para exportar imagen (evita capturar animaciones a medias) */
   .exporting, .exporting *, .exporting *::before, .exporting *::after{
@@ -586,50 +588,18 @@
   .confetti-piece{position:absolute; top:-10px; z-index:200; pointer-events:none;}
 
   @media(max-width:500px){
-    html,body{height:auto;min-height:100vh;min-height:100dvh}
-    body{padding:0;justify-content:flex-start;background:#0B0512;background-image:none}
+    html,body{height:auto; min-height:100vh; min-height:100dvh}
+    body{padding:0; justify-content:flex-start; background:#0B0512; background-image:none}
     .aurora,.sparkles{display:none}
-    .main-container{gap:0;width:100%;min-height:100vh;min-height:100dvh}
-    .tabs-container{max-width:100%;padding:8px 12px;background:#0B0512}
-    .tab-btn{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.15);font-size:11px;padding:5px 12px}
-    .tab-btn.active{background:var(--gold);color:#1A0F26;border-color:var(--gold)}
-    .device{all:unset;display:flex;flex-direction:column;flex:1;width:100%;overflow:hidden}
-    .screen{all:unset;display:flex;flex-direction:column;flex:1;position:relative}
+    .main-container{gap:0; width:100%; min-height:100vh; min-height:100dvh}
+    .device{all:unset; display:flex; flex-direction:column; flex:1; width:100%; overflow:hidden}
+    .screen{all:unset; display:flex; flex-direction:column; flex:1; position:relative; background:var(--paper)}
     .modal-overlay{position:fixed;}
     .notch{display:none}
     .statusbar{display:none}
-
-    /* --- Top: dark background --- */
-    .app{background:#0B0512}
-    .app-topbar{padding:8px 16px 4px}
-    .app-title{color:#fff}
-    .app-title .dot{background:var(--ok);box-shadow:0 0 0 3px rgba(61,214,140,.25)}
-    .topbar-actions{gap:4px}
-    .excel-btn-label,.export-btn{font-size:10px;padding:5px 8px;border-radius:10px}
-    .excel-btn-label{background:rgba(255,255,255,.12);color:rgba(255,255,255,.85)}
-    .export-btn{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
-    .bill-card{margin:6px 12px 8px;border-radius:16px;padding:12px 14px;background:linear-gradient(135deg,#2E6B3E,#1F4B2B)}
-    .bill-name{font-size:17px;color:#fff}
-    .bill-amount{font-size:28px}
-
-    /* --- List area: white background, same width as bill-card --- */
-    #upcomingBanner{margin:0 12px!important;padding:8px 14px!important;font-size:11px;background:#0B0512!important;color:#fff!important;border-right:3px solid var(--gold)!important;border-radius:8px}
-    #upcomingBanner span{color:#fff!important}
-    #upcomingWaBtn{background:var(--gold)!important;color:#2A1B03!important}
-    .list-head{background:#fff;margin:0 12px;padding:16px 14px 4px;border-radius:20px 20px 0 0}
-    .list-head h2{color:var(--ink)}
-    .list{background:#fff;margin:0 12px;padding:0 14px 8px;max-height:none;overflow-y:visible}
-    .row{gap:8px;padding:6px}
-    .row.birthday-highlight{padding:10px 8px}
-    .avatar{width:36px;height:36px;font-size:12px}
-    .row-name{font-size:13px;color:var(--ink)}
-    .row-meta{font-size:10px;color:#8A7AAE}
-    .action-bar{background:#fff;margin:0 12px;padding:4px 14px calc(8px + env(safe-area-inset-bottom,8px));gap:8px;border-radius:0 0 20px 20px}
-    .btn{padding:11px 8px;font-size:11px;border-radius:14px}
-    .btn .num{font-size:14px;font-weight:800}
-    .toast{bottom:80px}
     .home-indicator{display:none}
     .credit{display:none}
+    .fab-add{bottom:90px;}
   }
 </style>
 </head>
@@ -639,8 +609,6 @@
 <div class="sparkles" id="sparkles"></div>
 
 <div class="main-container">
-  <div class="tabs-container" id="tabsContainer"></div>
-
   <div class="device">
     <div class="screen" id="captureTarget">
       <div class="notch"></div>
@@ -655,110 +623,142 @@
       </div>
 
       <div class="app">
-        <div class="app-topbar">
-          <div class="app-title"><span class="dot"></span>Cumples</div>
-          
-           <div class="topbar-actions">
-            <button class="excel-btn-label" id="adminBtn" title="Mantenimiento">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              Admin
+        <div class="app-title-row">
+          <div class="app-title"><span class="cake">🎂</span>CumpliYape</div>
+          <div class="topbar-actions">
+            <button class="icon-btn" id="exportBtn" title="Exportar imagen">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </button>
-            <button class="export-btn" id="exportBtn">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              Imagen
+            <button class="icon-btn" id="waBtn" title="Recordatorio">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="dot-badge"></span>
             </button>
-             <button class="excel-btn-label" id="openExcelBtn">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              Excel
+            <button class="icon-btn" id="openExcelBtn" title="Cargar Excel">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </button>
-            <input type="file" id="excelFile" accept=".xlsx, .xls" style="display:none">
+            <input type="file" id="excelFile" accept=".xlsx, .xls">
           </div>
         </div>
+
+        <div class="tabs-container" id="tabsContainer"></div>
 
         <div class="bill-card">
           <div class="bill-top">
-            <div class="bill-name" id="birthdayTitle">Cumpleaños 🎂</div>
-            <div class="bill-badge" id="statusBadge">0/0 pagaron</div>
+            <div class="bill-photo-ring">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <div class="bill-photo" id="birthdayPhoto"></div>
+            </div>
+            <div class="bill-info">
+              <div class="bill-name" id="birthdayTitle">Cumpleaños</div>
+              <div class="bill-date" id="birthdaySubtitle">Carga tu Excel</div>
+              <div class="bill-amount-row">
+                <span class="bill-currency">S/</span>
+                <span class="bill-amount" id="totalAmount">0</span>
+              </div>
+            </div>
+            <div class="bill-gift" title="Meta de recaudo">🎁</div>
           </div>
-          <div class="bill-amount-row">
-            <span class="bill-currency">S/</span>
-            <span class="bill-amount" id="totalAmount">0</span>
+          <div class="progress-row">
+            <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+            <span class="progress-pct" id="pctLabel">0%</span>
           </div>
-          <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-          <div class="progress-labels"><span id="pctLabel">0% recaudado</span><span id="pendingLabel">Pendientes</span></div>
+          <div class="progress-labels">
+            <span id="payersLabel">0 de 0 personas aportaron</span>
+            <span id="pendingLabel">Faltan S/0</span>
+          </div>
         </div>
 
-        <div id="upcomingBanner" style="display:none;margin:6px 0 0;padding:8px 14px;background:rgba(217,166,60,.12);border-left:3px solid var(--gold);font-size:12px;color:var(--ink);align-items:center;gap:8px;flex-wrap:wrap;">
-          <span style="flex:1;min-width:0;">🎂 <span id="upcomingNames"></span></span>
-          <button id="upcomingWaBtn" style="background:var(--gold);border:none;padding:4px 10px;border-radius:10px;font-family:'Sora',sans-serif;font-weight:700;font-size:10px;color:#2A1B03;cursor:pointer;white-space:nowrap;">Recordar por WhatsApp</button>
-        </div>
+        <button class="reminder-banner" id="upcomingBanner" style="display:none;">
+          <span class="reminder-icon">
+            <svg width="15" height="15" viewBox="0 0 32 32" fill="currentColor"><path d="M16.04 3C9.37 3 3.96 8.4 3.96 15.06c0 2.24.62 4.34 1.7 6.14L3 29l8.02-2.6a12.9 12.9 0 0 0 5.02 1c6.67 0 12.08-5.4 12.08-12.06C28.12 8.4 22.7 3 16.04 3z"/></svg>
+          </span>
+          <span class="reminder-text">
+            <span class="reminder-label">RECORDATORIO</span>
+            <span class="reminder-details" id="upcomingNames"></span>
+          </span>
+        </button>
+
         <div class="list-head">
-          <h2>Lista de yapeadores</h2>
-          <span class="count" id="peopleCount">0 personas</span>
+          <h2>Lista de aportantes</h2>
+          <div class="list-head-right">
+            <span class="count" id="peopleCount">0 personas</span>
+            <button class="gear-btn" id="configBtn" title="Configuración">⚙</button>
+          </div>
         </div>
 
         <div class="list" id="list"></div>
       </div>
 
+      <button class="fab-add" id="fabAddBtn" title="Nuevo aportante">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+
       <div class="action-bar">
         <button class="btn btn-yape" id="copyBtn">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" fill="currentColor"/></svg>
-          Copiar <span class="num">975626524</span>
-        </button>
-        <button class="btn btn-wa" id="waBtn">
-          <svg width="15" height="15" viewBox="0 0 32 32" fill="currentColor"><path d="M16.04 3C9.37 3 3.96 8.4 3.96 15.06c0 2.24.62 4.34 1.7 6.14L3 29l8.02-2.6a12.9 12.9 0 0 0 5.02 1c6.67 0 12.08-5.4 12.08-12.06C28.12 8.4 22.7 3 16.04 3z"/></svg>
-          Recordatorio
+          Copiar Yape <span class="num">975626524</span>
         </button>
       </div>
       <div class="home-indicator"></div>
 
-      <!-- ADMIN MODAL -->
-      <div class="modal-overlay" id="adminModal">
+      <!-- MODAL: NUEVO / EDITAR APORTANTE -->
+      <div class="modal-overlay" id="personModal">
         <div class="modal-card">
           <div class="modal-header">
-            <h3>Mantenimiento</h3>
-            <button class="modal-close" id="adminClose">✕</button>
-          </div>
-          <div class="modal-tabs">
-            <button class="modal-tab active" data-tab="people">Personas</button>
-            <button class="modal-tab" data-tab="config">Configuración</button>
+            <h3 id="modalTitle">Nuevo aportante</h3>
+            <button class="modal-close" id="personModalClose">✕</button>
           </div>
           <div class="modal-body">
-            <div id="adminPeopleTab">
-              <form class="admin-form" id="adminForm">
-                <div class="full">
-                  <label>Nombre</label>
-                  <input type="text" id="fName" placeholder="Nombre completo" required>
+            <form class="admin-form" id="adminForm">
+              <div class="full photo-field">
+                <label>Foto</label>
+                <div class="photo-picker">
+                  <div class="photo-preview" id="fFotoPreview">📷</div>
+                  <label class="photo-upload-btn" for="fFoto">Elegir foto</label>
+                  <input type="file" id="fFoto" accept="image/*" style="display:none">
                 </div>
-                <div>
-                  <label>Fecha cumpleaños</label>
-                  <input type="text" id="fDate" placeholder="DD/MM/AAAA">
-                </div>
-                <div>
-                  <label>Teléfono</label>
-                  <input type="text" id="fPhone" placeholder="Número">
-                </div>
-                <div>
-                  <label>Cuota (S/)</label>
-                  <input type="number" id="fCuota" step="0.5" value="0">
-                </div>
-                <div>
-                  <label>Mora (S/)</label>
-                  <input type="number" id="fMora" step="0.5" value="0">
-                </div>
-                <input type="hidden" id="fState" value="2">
-                <div class="btn-row">
-                  <button type="submit" class="btn-add" id="adminFormSubmit">Añadir</button>
-                  <button type="button" class="btn-cancel" id="adminFormCancel">Cancelar</button>
-                </div>
-              </form>
-              <div class="admin-list" id="adminPeopleList"></div>
-            </div>
-            <div id="adminConfigTab" style="display:none">
-              <div class="config-section" id="adminConfigList"></div>
-              <div style="padding:0 16px 20px;">
-                <button class="btn-add" style="width:100%;padding:10px;border:none;border-radius:12px;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;background:var(--yape-purple);color:#fff;cursor:pointer" id="saveConfigBtn">Guardar configuración</button>
               </div>
+              <div class="full">
+                <label>Nombre</label>
+                <input type="text" id="fName" placeholder="Nombre completo" required>
+              </div>
+              <div>
+                <label>Fecha cumpleaños</label>
+                <input type="text" id="fDate" placeholder="DD/MM/AAAA">
+              </div>
+              <div>
+                <label>Teléfono</label>
+                <input type="text" id="fPhone" placeholder="Número">
+              </div>
+              <div>
+                <label>Cuota (S/)</label>
+                <input type="number" id="fCuota" step="0.5" value="0">
+              </div>
+              <div>
+                <label>Mora (S/)</label>
+                <input type="number" id="fMora" step="0.5" value="0">
+              </div>
+              <input type="hidden" id="fState" value="2">
+              <div class="btn-row">
+                <button type="submit" class="btn-add" id="adminFormSubmit">Añadir</button>
+                <button type="button" class="btn-cancel" id="personModalCancel">Cancelar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL: CONFIGURACIÓN -->
+      <div class="modal-overlay" id="configModal">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3>Configuración</h3>
+            <button class="modal-close" id="configModalClose">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="config-section" id="adminConfigList"></div>
+            <div style="padding:0 16px 20px;">
+              <button class="btn-add" style="width:100%;padding:10px;border:none;border-radius:12px;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;background:var(--purple);color:#fff;cursor:pointer" id="saveConfigBtn">Guardar configuración</button>
             </div>
           </div>
         </div>
@@ -772,7 +772,7 @@
 
 <script>
 const YAPE_NUM = "975626524";
-const AMOUNT_PER = 20;
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
 let excelTabsData = {};
 let currentTab = "";
@@ -781,6 +781,9 @@ let otrosData = null;
 let saving = false;
 let tabConfig = {};
 let lastPct = -1;
+let editingIndex = null;
+let currentPhotoData = '';
+let kebabMenuEl = null;
 
 // --- Chispas de fondo ---
 (function spawnSparkles(){
@@ -815,7 +818,7 @@ function animateNumber(el, to) {
 
 // --- Confetti de celebración ---
 function launchConfetti() {
-  const colors = ['#D9A63C', '#5B1F8C', '#00C9B7', '#3DD68C', '#E24C4C', '#F4D584'];
+  const colors = ['#6C3CE0', '#8B5CF6', '#1FAE59', '#F5A623', '#F472B6', '#EF4444'];
   const container = document.getElementById('captureTarget') || document.body;
   for (let i = 0; i < 60; i++) {
     const p = document.createElement('div');
@@ -839,13 +842,54 @@ function launchConfetti() {
   }
 }
 
+// --- Comprimir foto seleccionada a un dataURL pequeño ---
+function fileToCompressedDataURL(file, maxDim, quality) {
+  maxDim = maxDim || 160;
+  quality = quality || 0.72;
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > h) { if (w > maxDim) { h = Math.round(h * maxDim / w); w = maxDim; } }
+        else { if (h > maxDim) { w = Math.round(w * maxDim / h); h = maxDim; } }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function updatePhotoPreview(dataUrl) {
+  const el = document.getElementById('fFotoPreview');
+  el.innerHTML = dataUrl ? `<img src="${dataUrl}" alt="">` : '📷';
+}
+
+document.getElementById('fFoto').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    currentPhotoData = await fileToCompressedDataURL(file);
+    updatePhotoPreview(currentPhotoData);
+  } catch {
+    showToast('No se pudo procesar la foto');
+  }
+});
+
 const SERVER_PORT = 8765;
 
 async function serverSave(data) {
   await fetch(`http://localhost:${SERVER_PORT}/api/save`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({data}) });
 }
 
-const palette = ["#5B1F8C","#00A99D","#D9A63C","#E24C4C","#2E6B3E","#7E2FBF"];
+const palette = ["#6C3CE0","#1FAE59","#F5A623","#F472B6","#8B5CF6","#4A2899"];
 const initials = s => s.slice(0,2).toUpperCase();
 const colorFor = i => palette[i % palette.length];
 
@@ -868,61 +912,69 @@ function renderTabs() {
   });
 }
 
+function formatDateLong(dateStr) {
+  if (!dateStr || dateStr === 'S/F') return '';
+  const parts = dateStr.split('/');
+  if (parts.length !== 3) return dateStr;
+  const day = parseInt(parts[0]);
+  const month = MESES[parseInt(parts[1]) - 1] || '';
+  return `${day} de ${month}`;
+}
+
 function render(){
   listEl.innerHTML = "";
   const people = excelTabsData[currentTab] || [];
 
   // Buscar si hay alguien en estado 0 (Cumpleaños) en la pestaña activa
   const birthdayPerson = people.find(p => parseInt(p.state) === 0);
-  const birthdayTitleEl = document.getElementById('birthdayTitle');
+  const titleEl = document.getElementById('birthdayTitle');
+  const subtitleEl = document.getElementById('birthdaySubtitle');
+  const photoEl = document.getElementById('birthdayPhoto');
   if (birthdayPerson) {
-    birthdayTitleEl.innerHTML = `${birthdayPerson.n} 🎂`;
+    titleEl.innerHTML = `${birthdayPerson.n} <span class="crown-mini">👑</span>`;
+    subtitleEl.textContent = birthdayPerson.d && birthdayPerson.d !== 'S/F' ? `Cumple el ${formatDateLong(birthdayPerson.d)}` : 'Sin fecha registrada';
+    photoEl.innerHTML = birthdayPerson.foto
+      ? `<img src="${birthdayPerson.foto}" alt="">`
+      : `<div class="photo-fallback" style="background:${colorFor(0)}">${initials(birthdayPerson.n)}</div>`;
   } else {
-    birthdayTitleEl.innerHTML = `Sin cumples 🎈`;
+    titleEl.innerHTML = `Sin cumples 🎈`;
+    subtitleEl.textContent = 'Marca a un cumpleañero en la lista';
+    photoEl.innerHTML = `<div class="photo-fallback" style="background:var(--purple-2)">🎂</div>`;
   }
 
-  const bdayPerson = people.find(p => parseInt(p.state) === 0);
-  const daysSinceBDay = bdayPerson ? daysSinceLastBDay(bdayPerson.d) : 0;
+  const daysSinceBDay = birthdayPerson ? daysSinceLastBDay(birthdayPerson.d) : 0;
 
   people.forEach((p, i) => {
     const stateNum = parseInt(p.state); // 0: Cumpleaños, 1: Pagó, 2: No Pagó
     const row = document.createElement('div');
-    
-    // Clases según estados e indicadores visuales requeridos
-    let stateClass = `state-${stateNum}`;
+
     let highlightClass = (stateNum === 0) ? 'birthday-highlight' : '';
-    row.className = `row ${stateClass} ${highlightClass}`;
-    
-    let rightSideContent = '';
-    if (stateNum === 0) {
-      // Estado 0: Cumpleaños (Icono bloqueado/Corona)
-      rightSideContent = `
-        <span class="amt">Recibe</span>
-        <div class="lock" title="Cumpleañero">
-          <svg width="12" height="13" viewBox="0 0 12 13" fill="none"><rect x="1.5" y="5.5" width="9" height="6.5" rx="1.5" fill="currentColor"/><path d="M3.5 5.5V3.7A2.5 2.5 0 0 1 6 1.2a2.5 2.5 0 0 1 2.5 2.5V5.5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
-        </div>`;
-    } else {
-      const moraPD = (tabConfig[currentTab]?.moraPorDia) || 0;
-      const amt = stateNum === 1
-        ? (p.cuota || 0) + (p.mora || 0)
-        : (p.cuota || 0) + moraPD * daysSinceBDay;
-      rightSideContent = `
-        <span class="amt">S/${amt}</span>
-        <button class="toggle ${stateNum === 1 ? 'on':'off'}" data-i="${i}" aria-label="Cambiar estado de ${p.n}"><span class="knob"></span></button>`;
-    }
+    row.className = `row state-${stateNum} ${highlightClass}`;
+
+    const moraPD = (tabConfig[currentTab]?.moraPorDia) || 0;
+    const amt = stateNum === 1
+      ? (p.cuota || 0) + (p.mora || 0)
+      : (p.cuota || 0) + moraPD * daysSinceBDay;
+
+    const pillLabel = stateNum === 0 ? '' : (stateNum === 1 ? '✓' : '✕');
+    const pillTitle = stateNum === 0 ? 'Cumpleañero (bloqueado)' : (stateNum === 1 ? 'Pagó' : 'Pendiente');
+    const avatarInner = p.foto
+      ? `<img src="${p.foto}" class="avatar-img" alt="">`
+      : initials(p.n);
 
     row.innerHTML = `
       ${stateNum === 0 ? '<span class="crown">👑</span>' : ''}
-      <div class="avatar" style="background:${colorFor(i)}">
-        ${initials(p.n)}
-        ${stateNum === 0 ? '<span class="gift">🎁</span>' : ''}
+      <div class="avatar" style="${p.foto ? '' : `background:${colorFor(i)}`}">
+        ${avatarInner}
       </div>
       <div class="row-mid">
-        <div class="row-name">${p.n} ${stateNum === 0 ? '<span class="pill">CUMPLE</span>':''}</div>
-        <div class="row-meta">${p.d} · ${p.tel || 'S/N'}</div>
+        <div class="row-name">${p.n}</div>
+        <div class="row-meta">🗓 ${p.d} · 📞 ${p.tel || 'S/N'}</div>
       </div>
       <div class="row-right">
-        ${rightSideContent}
+        <span class="amt">S/${amt}</span>
+        <button class="state-pill state-${stateNum}" data-i="${i}" title="${pillTitle}" aria-label="Cambiar estado de ${p.n}">${pillLabel}</button>
+        <button class="kebab-btn" data-i="${i}" aria-label="Más opciones">⋮</button>
       </div>
     `;
     row.style.animationDelay = Math.min(i * 45, 500) + 'ms';
@@ -930,18 +982,22 @@ function render(){
   });
 
   // Single click: alterna entre pagó (1) y no pagó (2)
-  // Doble click: marca como cumpleañero (0), muestra "Recibe" y bloquea el switch
-  listEl.querySelectorAll('.toggle').forEach(btn=>{
+  // Doble click: marca como cumpleañero (0); si ya es cumpleañero, revierte a no pagó (2)
+  listEl.querySelectorAll('.state-pill').forEach(btn=>{
     let clickTimer = null;
     btn.addEventListener('click', ()=>{
+      const i = +btn.dataset.i;
+      const target = excelTabsData[currentTab][i];
       if (clickTimer) {
         clearTimeout(clickTimer);
         clickTimer = null;
-        // Doble click → estado 0 (cumpleañero)
-        const i = +btn.dataset.i;
-        const person = excelTabsData[currentTab][i];
-        person.state = 0;
-        person.mora = 0;
+        if (parseInt(target.state) === 0) {
+          target.state = 2;
+          target.mora = 0;
+        } else {
+          target.state = 0;
+          target.mora = 0;
+        }
         render();
         updateSummary();
         saveExcel();
@@ -949,8 +1005,7 @@ function render(){
       }
       clickTimer = setTimeout(()=>{
         clickTimer = null;
-        const i = +btn.dataset.i;
-        const target = excelTabsData[currentTab][i];
+        if (parseInt(target.state) === 0) return; // el cumpleañero solo cambia con doble click
         const wasPending = target.state == 2;
         if (target.state == 2) {
           const moraPD = (tabConfig[currentTab]?.moraPorDia) || 0;
@@ -964,7 +1019,6 @@ function render(){
         render();
         updateSummary();
         saveExcel();
-        // Si era el último pendiente que recién pagó → enviar mensaje
         if (wasPending && target.state == 1) {
           const people = excelTabsData[currentTab] || [];
           const pending = people.filter(p => parseInt(p.state) === 2);
@@ -974,26 +1028,51 @@ function render(){
     });
   });
 
-  // Doble click en el candado (estado 0) para revertir a no pagó (2)
-  listEl.querySelectorAll('.lock').forEach(lock=>{
-    let lockTimer = null;
-    lock.addEventListener('click', ()=>{
-      if (lockTimer) {
-        clearTimeout(lockTimer);
-        lockTimer = null;
-        const row = lock.closest('.row');
-        const i = [...row.parentNode.children].indexOf(row);
-        const target = excelTabsData[currentTab];
-        if (target[i]) { target[i].state = 2; target[i].mora = 0; }
-        render();
-        updateSummary();
-        saveExcel();
-        return;
-      }
-      lockTimer = setTimeout(()=>{ lockTimer = null; }, 300);
+  listEl.querySelectorAll('.kebab-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const i = +btn.dataset.i;
+      if (kebabMenuEl) { closeKebabMenu(); return; }
+      openKebabMenu(btn, i);
     });
   });
+
   checkUpcoming();
+}
+
+function closeKebabMenu() {
+  if (kebabMenuEl) { kebabMenuEl.remove(); kebabMenuEl = null; }
+}
+
+function openKebabMenu(btn, i) {
+  closeKebabMenu();
+  const screen = document.getElementById('captureTarget');
+  const btnRect = btn.getBoundingClientRect();
+  const screenRect = screen.getBoundingClientRect();
+  const menu = document.createElement('div');
+  menu.className = 'kebab-menu';
+  menu.innerHTML = `<button type="button" data-act="edit">✎ Editar</button><button type="button" data-act="del">✕ Eliminar</button>`;
+
+  const spaceBelow = screenRect.bottom - btnRect.bottom;
+  if (spaceBelow > 100) {
+    menu.style.top = (btnRect.bottom - screenRect.top + 4) + 'px';
+  } else {
+    menu.style.top = (btnRect.top - screenRect.top - 92) + 'px';
+  }
+  menu.style.right = (screenRect.right - btnRect.right) + 'px';
+
+  menu.addEventListener('click', e => {
+    const act = e.target.closest('button')?.dataset.act;
+    if (act === 'edit') { closeKebabMenu(); openPersonModal(i); }
+    if (act === 'del') { closeKebabMenu(); deletePerson(i); }
+  });
+  screen.appendChild(menu);
+  kebabMenuEl = menu;
+  setTimeout(() => document.addEventListener('click', outsideKebabClose, { once: true }), 0);
+}
+
+function outsideKebabClose(e) {
+  if (kebabMenuEl && !kebabMenuEl.contains(e.target)) closeKebabMenu();
 }
 
 async function saveExcel() {
@@ -1002,10 +1081,10 @@ async function saveExcel() {
 
   const wb = XLSX.utils.book_new();
   for (const [sheetName, people] of Object.entries(excelTabsData)) {
-    const header = ['Cuota', 'Mora', 'Telefono', 'Nombre', 'Fecha', 'Estado'];
+    const header = ['Cuota', 'Mora', 'Telefono', 'Nombre', 'Fecha', 'Estado', 'Foto'];
     const data = [header];
     people.forEach(p => {
-      data.push([p.cuota || 0, p.mora || 0, p.tel || '', p.n, p.d, p.state]);
+      data.push([p.cuota || 0, p.mora || 0, p.tel || '', p.n, p.d, p.state, p.foto || '']);
     });
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), sheetName);
   }
@@ -1056,21 +1135,26 @@ function calcPersonAmount(p) {
 function updateSummary(){
   const people = excelTabsData[currentTab] || [];
   const validPayers = people.filter(p => parseInt(p.state) !== 0);
-  
+
   const goalCount = validPayers.length;
+  const paidCount = validPayers.filter(p => parseInt(p.state) === 1).length;
   const collectedAmount = validPayers.filter(p => parseInt(p.state) === 1).reduce((sum, p) => sum + calcPersonAmount(p), 0);
   const goalAmount = validPayers.reduce((sum, p) => sum + calcPersonAmount(p), 0);
   const pct = goalAmount > 0 ? Math.round((collectedAmount / goalAmount) * 100) : 0;
-  const pendingCount = goalCount - validPayers.filter(p => parseInt(p.state) === 1).length;
+  const pendingCount = goalCount - paidCount;
+  const remaining = Math.max(goalAmount - collectedAmount, 0);
 
   animateNumber(document.getElementById('totalAmount'), collectedAmount);
-  document.getElementById('statusBadge').textContent = `${validPayers.filter(p => parseInt(p.state) === 1).length}/${goalCount} pagaron`;
   const fillEl = document.getElementById('progressFill');
   fillEl.style.width = pct + '%';
   fillEl.classList.toggle('complete', pct === 100 && goalCount > 0);
-  document.getElementById('pctLabel').textContent = `${pct}% recaudado`;
-  document.getElementById('pendingLabel').textContent = pendingCount === 0 ? '¡Completo! 🎉' : `${pendingCount} pendiente${pendingCount > 1 ? 's' : ''}`;
+  document.getElementById('pctLabel').textContent = `${pct}%`;
+  document.getElementById('payersLabel').textContent = `${paidCount} de ${goalCount} personas aportaron`;
+  document.getElementById('pendingLabel').textContent = pendingCount === 0 && goalCount > 0 ? '¡Completo! 🎉' : `Faltan S/${remaining}`;
   document.getElementById('peopleCount').textContent = `${people.length} personas`;
+
+  const waBtn = document.getElementById('waBtn');
+  waBtn.classList.toggle('has-pending', pendingCount > 0);
 
   if (pct === 100 && goalCount > 0 && lastPct !== 100) launchConfetti();
   lastPct = pct;
@@ -1086,7 +1170,8 @@ function processWorkbook(data, dataType) {
     state: ['estado','state','status','pagó','pago','pagado','paid','situación','situacion','yapeó','yapeo'],
     tel: ['teléfono','telefono','tel','telefóno','celular','cel','whatsapp','wa','contacto','número','numero','celular','móvil','movil'],
     cuota: ['cuota','monto','aporte','contribucion','contribución'],
-    mora: ['mora','morosidad','penalidad','recargo','interes','interés']
+    mora: ['mora','morosidad','penalidad','recargo','interes','interés'],
+    foto: ['foto','photo','imagen','picture','avatar','pic']
   };
 
   function detectCols(rows, maxScan) {
@@ -1094,7 +1179,7 @@ function processWorkbook(data, dataType) {
       const row = rows[r];
       if (!row || !Array.isArray(row)) continue;
       const vals = row.map(v => String(v || '').toLowerCase().trim());
-      let found = {n:false, d:false, state:false, tel:false, cuota:false, mora:false};
+      let found = {n:false, d:false, state:false, tel:false, cuota:false, mora:false, foto:false};
       const map = {};
       vals.forEach((v, ci) => {
         for (const [key, keywords] of Object.entries(headerKeywords)) {
@@ -1109,6 +1194,7 @@ function processWorkbook(data, dataType) {
         if (!found.tel) map.tel = -1;
         if (!found.cuota) map.cuota = -1;
         if (!found.mora) map.mora = -1;
+        if (!found.foto) map.foto = -1;
         return { headIdx: r + 1, colMap: map };
       }
     }
@@ -1116,10 +1202,10 @@ function processWorkbook(data, dataType) {
   }
 
   const fallbacks = [
-    {n:0, d:1, state:2, tel:3, cuota:0, mora:1},
-    {n:1, d:2, state:3, tel:4, cuota:0, mora:1},
-    {n:0, d:2, state:3, tel:4, cuota:0, mora:1},
-    {n:1, d:0, state:2, tel:3, cuota:-1, mora:-1},
+    {n:0, d:1, state:2, tel:3, cuota:0, mora:1, foto:-1},
+    {n:1, d:2, state:3, tel:4, cuota:0, mora:1, foto:-1},
+    {n:0, d:2, state:3, tel:4, cuota:0, mora:1, foto:-1},
+    {n:1, d:0, state:2, tel:3, cuota:-1, mora:-1, foto:-1},
   ];
 
   function fmtDate(v) {
@@ -1193,7 +1279,7 @@ function processWorkbook(data, dataType) {
           for (let c = 0; c < Math.min(6, r.length); c++) {
             if (r[c] && String(r[c]).trim()) {
               headIdx = i;
-              colMap = {n: c, d: c+1 >= 0 ? c+1 : -1, state: c+2, tel: c+3, cuota: c >= 0 ? c : -1, mora: -1};
+              colMap = {n: c, d: c+1 >= 0 ? c+1 : -1, state: c+2, tel: c+3, cuota: c >= 0 ? c : -1, mora: -1, foto: -1};
               break;
             }
           }
@@ -1220,6 +1306,7 @@ function processWorkbook(data, dataType) {
         tel: colMap.tel >= 0 && row[colMap.tel] ? String(row[colMap.tel]).trim() : "",
         cuota,
         mora,
+        foto: colMap.foto >= 0 && row[colMap.foto] ? String(row[colMap.foto]).trim() : "",
         amount: cuota + mora
       });
     }
@@ -1245,8 +1332,6 @@ function processWorkbook(data, dataType) {
     showToast("No se encontraron registros válidos en el archivo.");
   }
 }
-
-
 
 async function openExcel() {
   try {
@@ -1278,17 +1363,19 @@ document.getElementById('excelFile').addEventListener('change', function(e) {
 
 // --- RENDERIZADO INICIAL ---
 function renderEmptyState() {
-  document.getElementById('birthdayTitle').innerHTML = 'Carga tu Excel 🎈';
-  document.getElementById('statusBadge').textContent = '0/0';
+  document.getElementById('birthdayTitle').innerHTML = 'Carga tu Excel';
+  document.getElementById('birthdaySubtitle').textContent = 'Usa el botón de Excel arriba';
+  document.getElementById('birthdayPhoto').innerHTML = `<div class="photo-fallback" style="background:var(--purple-2)">🎈</div>`;
   document.getElementById('totalAmount').textContent = '0';
   document.getElementById('progressFill').style.width = '0%';
-  document.getElementById('pctLabel').textContent = '0% recaudado';
+  document.getElementById('pctLabel').textContent = '0%';
+  document.getElementById('payersLabel').textContent = '0 de 0 personas aportaron';
   document.getElementById('pendingLabel').textContent = 'Esperando...';
   document.getElementById('peopleCount').textContent = '0 personas';
   document.getElementById('list').innerHTML = `
-    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:200px; color:#8A7AAE; font-size:13px; text-align:center; gap:8px;">
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:200px; color:var(--muted); font-size:13px; text-align:center; gap:8px;">
       <svg class="empty-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      Sube tu archivo Excel (.xlsx) con el botón <strong>Excel</strong> de arriba
+      Sube tu archivo Excel (.xlsx) con el ícono de arriba
     </div>`;
   document.getElementById('tabsContainer').innerHTML = '';
   document.getElementById('upcomingBanner').style.display = 'none';
@@ -1318,7 +1405,7 @@ document.getElementById('exportBtn').addEventListener('click', () => {
   const app = document.querySelector('.app');
   const wrapper = document.createElement('div');
   wrapper.className = 'exporting';
-  wrapper.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:390px;background:#F4EEFB;font-family:Inter,sans-serif;z-index:-1;';
+  wrapper.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:390px;background:#F8F6FD;font-family:Inter,sans-serif;z-index:-1;';
 
   // Clonar y luego restaurar el banner original para no afectar la UI
   const prevBannerDisplay = document.getElementById('upcomingBanner')?.style?.display;
@@ -1348,25 +1435,18 @@ document.getElementById('exportBtn').addEventListener('click', () => {
   const people = excelTabsData[currentTab] || [];
   const birthday = people.find(p => parseInt(p.state) === 0);
   const yapeDisplay = birthday && birthday.tel ? birthday.tel : YAPE_NUM;
-  const nameBirthday = birthday ? birthday.n : '';
 
   // Footer limpio
   const footer = document.createElement('div');
   footer.style.cssText = 'padding:16px 20px 20px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(0,0,0,.06);margin-top:4px;';
   footer.innerHTML = `
     <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:#8A7AAE;">Yapea al cumpleañero</span>
-    <span id="exportNum" style="font-size:20px;font-family:'Sora',sans-serif;font-weight:800;color:#5B1F8C;letter-spacing:.3px;">${yapeDisplay}</span>
+    <span id="exportNum" style="font-size:20px;font-family:'Sora',sans-serif;font-weight:800;color:#6C3CE0;letter-spacing:.3px;">${yapeDisplay}</span>
   `;
   clone.appendChild(footer);
 
-  // En móvil el número se muestra blanco
-  if (window.innerWidth < 500) {
-    const numSpan = footer.querySelector('#exportNum');
-    if (numSpan) numSpan.style.color = '#fff';
-  }
-
   html2canvas(wrapper, {
-    backgroundColor: "#F4EEFB",
+    backgroundColor: "#F8F6FD",
     scale: 2,
     logging: false,
     useCORS: false,
@@ -1444,9 +1524,18 @@ function checkUpcoming() {
   }
   const next = upcoming.filter(p => daysUntilBDay(p.d) === minDays);
   banner.style.display = 'flex';
-  namesEl.innerHTML = next.map(p =>
-    `<span style="display:inline-block;vertical-align:top">${p.n}<span style="display:block;font-size:11px;opacity:.7;font-weight:400">${formatDateShort(p.d)}</span></span>`
-  ).join('<span style="margin:0 4px">, </span>');
+  const names = next.map(p => p.n).join(', ');
+  const fecha = formatDateFull(next[0].d);
+  namesEl.textContent = `${names} ${fecha} (${minDays} día${minDays === 1 ? '' : 's'} para cumplir)`;
+}
+
+function formatDateFull(dateStr) {
+  if (!dateStr || dateStr === 'S/F') return '';
+  const parts = dateStr.split('/');
+  if (parts.length !== 3) return dateStr;
+  const day = String(parseInt(parts[0])).padStart(2, '0');
+  const month = MESES[parseInt(parts[1]) - 1] || '';
+  return `${day} ${month.charAt(0).toUpperCase() + month.slice(1)}`;
 }
 
 function missionCompleteMsg(nameBirthday) {
@@ -1472,7 +1561,7 @@ document.getElementById('waBtn').addEventListener('click', ()=>{
   const nameBirthday = birthdayPerson ? birthdayPerson.n : "el cumpleañero";
   const numBirthday = birthdayPerson && birthdayPerson.tel ? birthdayPerson.tel : YAPE_NUM;
   const pendientes = people.filter(p=> parseInt(p.state) === 2);
-  
+
   let msg;
   if(pendientes.length === 0){
     msg = missionCompleteMsg(nameBirthday);
@@ -1482,7 +1571,7 @@ document.getElementById('waBtn').addEventListener('click', ()=>{
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
 });
 
-document.getElementById('upcomingWaBtn').addEventListener('click', ()=>{
+document.getElementById('upcomingBanner').addEventListener('click', ()=>{
   const people = excelTabsData[currentTab] || [];
   let minDays = Infinity;
   const upcoming = people.filter(p => {
@@ -1506,8 +1595,6 @@ tickClock();
 setInterval(tickClock, 30000);
 
 // --- ADMIN / CRUD ---
-let editingIndex = null;
-
 function parseMD(s) {
   if (!s || s === 'S/F') return { d: 99, m: 99 };
   const p = s.split('/');
@@ -1520,49 +1607,38 @@ function sortByMD(arr) {
   });
 }
 
-function openAdminModal() {
-  if (!currentTab || !excelTabsData[currentTab] || !excelTabsData[currentTab].length) {
+function openPersonModal(i) {
+  if (!currentTab || !excelTabsData[currentTab]) {
+    showToast('Primero carga un archivo Excel');
+    return;
+  }
+  editingIndex = (i === undefined || i === null) ? null : i;
+  document.body.style.overflow = 'hidden';
+  document.getElementById('personModal').classList.add('open');
+  document.getElementById('modalTitle').textContent = editingIndex !== null ? 'Editar aportante' : 'Nuevo aportante';
+  document.getElementById('adminFormSubmit').textContent = editingIndex !== null ? 'Actualizar' : 'Añadir';
+  if (editingIndex !== null) fillForm(excelTabsData[currentTab][editingIndex]);
+  else resetForm();
+}
+
+function closePersonModal() {
+  document.body.style.overflow = '';
+  document.getElementById('personModal').classList.remove('open');
+}
+
+function openConfigModal() {
+  if (!Object.keys(excelTabsData).length) {
     showToast('Primero carga un archivo Excel');
     return;
   }
   document.body.style.overflow = 'hidden';
-  document.getElementById('adminModal').classList.add('open');
-  editingIndex = null;
-  switchAdminTab('people');
+  document.getElementById('configModal').classList.add('open');
+  renderAdminConfig();
 }
 
-function closeAdminModal() {
+function closeConfigModal() {
   document.body.style.overflow = '';
-  document.getElementById('adminModal').classList.remove('open');
-}
-
-function switchAdminTab(tab) {
-  document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  document.getElementById('adminPeopleTab').style.display = tab === 'people' ? 'block' : 'none';
-  document.getElementById('adminConfigTab').style.display = tab === 'config' ? 'block' : 'none';
-  if (tab === 'people') renderAdminPeople();
-  else renderAdminConfig();
-}
-
-function renderAdminPeople() {
-  const people = excelTabsData[currentTab] || [];
-  const container = document.getElementById('adminPeopleList');
-  if (!people.length) {
-    container.innerHTML = '<div class="modal-empty">No hay personas en esta pestaña</div>';
-    return;
-  }
-  container.innerHTML = people.map((p, i) => `
-    <div class="admin-item">
-      <div class="info">
-        <div class="name">${p.n}</div>
-        <div class="meta">${p.d} · ${p.tel || 'S/N'} · S/${p.cuota || 0}</div>
-      </div>
-      <div class="actions">
-        <button class="btn-edit" onclick="editPerson(${i})" title="Editar">✎</button>
-        <button class="btn-del" onclick="deletePerson(${i})" title="Eliminar">✕</button>
-      </div>
-    </div>
-  `).join('');
+  document.getElementById('configModal').classList.remove('open');
 }
 
 function renderAdminConfig() {
@@ -1593,8 +1669,9 @@ function resetForm() {
   document.getElementById('fCuota').value = '0';
   document.getElementById('fMora').value = '0';
   document.getElementById('fState').value = '2';
-  document.getElementById('adminFormCancel').classList.remove('show');
   document.getElementById('adminFormSubmit').textContent = 'Añadir';
+  currentPhotoData = '';
+  updatePhotoPreview('');
   editingIndex = null;
 }
 
@@ -1605,6 +1682,8 @@ function fillForm(p) {
   document.getElementById('fCuota').value = p.cuota || 0;
   document.getElementById('fMora').value = p.mora || 0;
   document.getElementById('fState').value = p.state || 2;
+  currentPhotoData = p.foto || '';
+  updatePhotoPreview(currentPhotoData);
 }
 
 function submitPerson(e) {
@@ -1618,6 +1697,7 @@ function submitPerson(e) {
     cuota: parseFloat(document.getElementById('fCuota').value) || 0,
     mora: parseFloat(document.getElementById('fMora').value) || 0,
     state: parseInt(document.getElementById('fState').value) || 2,
+    foto: currentPhotoData || '',
     amount: 0
   };
   if (editingIndex !== null) {
@@ -1626,22 +1706,13 @@ function submitPerson(e) {
     excelTabsData[currentTab].push(data);
   }
   sortByMD(excelTabsData[currentTab]);
+  const wasEditing = editingIndex !== null;
   resetForm();
+  closePersonModal();
   render();
   updateSummary();
-  renderAdminPeople();
   saveExcel();
-  showToast(editingIndex !== null ? 'Actualizado ✓' : 'Añadido ✓');
-}
-
-function editPerson(i) {
-  const p = excelTabsData[currentTab][i];
-  if (!p) return;
-  editingIndex = i;
-  fillForm(p);
-  document.getElementById('adminFormCancel').classList.add('show');
-  document.getElementById('adminFormSubmit').textContent = 'Actualizar';
-  document.getElementById('adminForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  showToast(wasEditing ? 'Actualizado ✓' : 'Añadido ✓');
 }
 
 function deletePerson(i) {
@@ -1650,19 +1721,18 @@ function deletePerson(i) {
   sortByMD(excelTabsData[currentTab]);
   render();
   updateSummary();
-  renderAdminPeople();
   saveExcel();
   showToast('Eliminado ✓');
 }
 
-document.getElementById('adminBtn').addEventListener('click', openAdminModal);
-document.getElementById('adminClose').addEventListener('click', closeAdminModal);
+document.getElementById('fabAddBtn').addEventListener('click', () => openPersonModal());
+document.getElementById('configBtn').addEventListener('click', openConfigModal);
+document.getElementById('personModalClose').addEventListener('click', closePersonModal);
+document.getElementById('personModalCancel').addEventListener('click', closePersonModal);
+document.getElementById('configModalClose').addEventListener('click', closeConfigModal);
 document.getElementById('adminForm').addEventListener('submit', submitPerson);
-document.getElementById('adminFormCancel').addEventListener('click', resetForm);
-document.getElementById('adminModal').addEventListener('click', function(e) { if (e.target === this) closeAdminModal(); });
-document.querySelectorAll('.modal-tab').forEach(tab => {
-  tab.addEventListener('click', () => switchAdminTab(tab.dataset.tab));
-});
+document.getElementById('personModal').addEventListener('click', function(e) { if (e.target === this) closePersonModal(); });
+document.getElementById('configModal').addEventListener('click', function(e) { if (e.target === this) closeConfigModal(); });
 document.getElementById('adminConfigList').addEventListener('change', function(e) {
   if (e.target.classList.contains('cfg-input')) {
     const idx = parseInt(e.target.dataset.idx);
