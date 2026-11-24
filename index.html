@@ -319,7 +319,9 @@
 
   .list{
     flex:1;
+    min-height:0;
     overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
     padding:0 12px 90px;
     scrollbar-width:none;
   }
@@ -593,12 +595,13 @@
   .confetti-piece{position:absolute; top:-10px; z-index:200; pointer-events:none;}
 
   @media(max-width:500px){
-    html,body{height:auto; min-height:100vh; min-height:100dvh}
+    /* Altura fija del viewport: solo la lista hace scroll (la tarjeta y el + quedan fijos) */
+    html,body{height:100vh; height:100dvh; overflow:hidden;}
     body{padding:0; justify-content:flex-start; background:#0B0512; background-image:none}
     .aurora,.sparkles{display:none}
-    .main-container{gap:0; width:100%; min-height:100vh; min-height:100dvh}
-    .device{all:unset; display:flex; flex-direction:column; flex:1; width:100%; overflow:hidden}
-    .screen{all:unset; display:flex; flex-direction:column; flex:1; position:relative; background:var(--paper)}
+    .main-container{gap:0; width:100%; height:100%; min-height:0;}
+    .device{all:unset; display:flex; flex-direction:column; flex:1; min-height:0; width:100%; overflow:hidden}
+    .screen{all:unset; display:flex; flex-direction:column; flex:1; min-height:0; position:relative; background:var(--paper)}
     .modal-overlay{position:fixed;}
     .notch{display:none}
     .statusbar{display:none}
