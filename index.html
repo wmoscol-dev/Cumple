@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>CumpliYape · Control de Recaudo</title>
+<title>CumpliYape &#xB7; Control de Recaudo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#6C3CE0">
-<meta name="description" content="Control de recaudo para cumpleaños vía Yape">
+<meta name="description" content="Control de recaudo para cumplea&#xF1;os v&#xED;a Yape">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -160,6 +160,7 @@
 
   .topbar-actions{display:flex; gap:8px;}
   #excelFile{display:none;}
+  .ico{width:1em; height:1em; display:inline-block; vertical-align:-0.15em; flex-shrink:0;}
   .icon-btn{
     width:36px; height:36px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
@@ -192,7 +193,7 @@
   .tab-btn:hover{background:rgba(108,60,224,.07);}
   .tab-btn.active{background:var(--purple-light); color:var(--purple); transform:scale(1.06);}
 
-  /* ---------- BILL CARD (tarjeta del cumpleañero) ---------- */
+  /* ---------- BILL CARD (tarjeta del cumpleanero) ---------- */
   .bill-card{
     margin:12px 16px 6px;
     border-radius:20px;
@@ -212,7 +213,7 @@
   }
   @keyframes cardShine{0%{left:-60%;}45%{left:130%;}100%{left:130%;}}
 
-  .bill-top{display:flex; align-items:flex-start; gap:12px;}
+  .bill-top{display:flex; align-items:center; gap:12px;}
 
   .bill-photo-ring{position:relative; flex-shrink:0;}
   .bill-photo{
@@ -233,25 +234,22 @@
   .bill-photo-ring .dot:nth-child(4){bottom:14px; right:-6px; background:var(--pink); animation-delay:1.2s;}
   @keyframes dotFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
 
-  .bill-info{flex:1; min-width:0;}
+  /* Columna a la derecha del avatar: cabecera (nombre+monto), barra y etiquetas */
+  .bill-main{flex:1; min-width:0; display:flex; flex-direction:column; gap:8px;}
+  .bill-head{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+
+  .bill-info{min-width:0;}
   .bill-name{
     font-family:'Sora',sans-serif; font-weight:800; font-size:18px; color:var(--ink);
-    display:flex; align-items:center; gap:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.1;
   }
-  .crown-mini{display:inline-block; animation:crownWobble 2.4s ease-in-out infinite;}
-  @keyframes crownWobble{0%,100%{transform:rotate(-8deg);}50%{transform:rotate(8deg) translateY(-1px);}}
   .bill-date{font-family:'Inter',sans-serif; font-size:12px; color:var(--muted); margin-top:2px;}
-  .bill-amount-row{display:flex; align-items:baseline; gap:4px; margin-top:8px;}
+
+  .bill-amount-box{display:flex; align-items:baseline; gap:4px; flex-shrink:0;}
   .bill-currency{font-family:'Sora',sans-serif; font-weight:700; font-size:15px; color:var(--purple); opacity:.8;}
-  .bill-amount{font-family:'Sora',sans-serif; font-weight:800; font-size:30px; color:var(--purple); letter-spacing:-1px;}
+  .bill-amount{font-family:'Sora',sans-serif; font-weight:800; font-size:30px; color:var(--purple); letter-spacing:-1px; line-height:1;}
 
-  .bill-gift{
-    width:38px; height:38px; border-radius:12px; flex-shrink:0;
-    background:#fff; display:flex; align-items:center; justify-content:center;
-    font-size:17px; box-shadow:0 4px 12px rgba(108,60,224,.18);
-  }
-
-  .progress-row{display:flex; align-items:center; gap:8px; margin-top:14px;}
+  .progress-row{display:flex; align-items:center; gap:8px; margin-top:0;}
   .progress-track{flex:1; height:7px; border-radius:8px; background:rgba(108,60,224,.15); overflow:hidden;}
   .progress-fill{
     height:100%; border-radius:8px; position:relative; overflow:hidden;
@@ -268,11 +266,12 @@
   .progress-fill.complete{background:linear-gradient(90deg, var(--green), #4ADE80); box-shadow:0 0 12px rgba(31,174,89,.65);}
   .progress-pct{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px; color:var(--purple); white-space:nowrap;}
   .progress-labels{
-    display:flex; justify-content:space-between; margin-top:6px;
+    display:flex; justify-content:space-between; gap:8px; margin-top:0;
     font-family:'Inter',sans-serif; font-size:11px; color:var(--muted);
   }
+  .progress-labels span{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 
-  /* ---------- BANNER RECORDATORIO (botón verde) ---------- */
+  /* ---------- BANNER RECORDATORIO (boton verde) ---------- */
   .reminder-banner{
     display:none; align-items:center; gap:10px; width:calc(100% - 32px);
     margin:8px 16px 0; padding:12px 16px; border:none; border-radius:16px; cursor:pointer;
@@ -341,7 +340,12 @@
     to{opacity:1; transform:translateY(0) scale(1);}
   }
 
-  /* Destacar cumpleañero (Estado 0) */
+  /* Color de fila segun pago: verde = pago, naranja = pendiente, rojo = pendiente y ya paso el cumpleanos */
+  .row.row-paid, .row.row-paid:hover{background:var(--green-light);}
+  .row.row-pending, .row.row-pending:hover{background:#FFE9CC;}
+  .row.row-overdue, .row.row-overdue:hover{background:var(--red-light);}
+
+  /* Destacar cumpleanero (Estado 0) */
   .row.birthday-highlight{
     background:linear-gradient(90deg, rgba(108,60,224,.14), rgba(108,60,224,.03));
     box-shadow:0 0 0 1.5px var(--purple-2);
@@ -428,7 +432,7 @@
 
   /* ---------- FAB ---------- */
   .fab-add{
-    position:absolute; right:18px; bottom:96px; z-index:60;
+    position:absolute; right:18px; bottom:calc(22px + env(safe-area-inset-bottom)); z-index:60;
     width:52px; height:52px; border-radius:50%; border:none;
     background:linear-gradient(135deg, var(--purple-2), var(--purple)); color:#fff;
     display:flex; align-items:center; justify-content:center; cursor:pointer;
@@ -575,9 +579,10 @@
     outline:none; box-sizing:border-box;
   }
   .config-item .fields input:focus{border-color:var(--purple);}
+  .config-item .fields .cfg-grupo{width:130px; font-family:'Inter',sans-serif;}
   .modal-empty{text-align:center; padding:48px 16px; color:var(--muted); font-size:13px;}
 
-  /* Estado estático para exportar imagen (evita capturar animaciones a medias) */
+  /* Estado estatico para exportar imagen (evita capturar animaciones a medias) */
   .exporting, .exporting *, .exporting *::before, .exporting *::after{
     animation:none !important; transition:none !important;
   }
@@ -599,7 +604,7 @@
     .statusbar{display:none}
     .home-indicator{display:none}
     .credit{display:none}
-    .fab-add{bottom:90px;}
+    .fab-add{bottom:calc(18px + env(safe-area-inset-bottom));}
   }
 </style>
 </head>
@@ -624,17 +629,18 @@
 
       <div class="app">
         <div class="app-title-row">
-          <div class="app-title"><span class="cake">🎂</span>CumpliYape</div>
+          <div class="app-title"><span class="cake"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21h16v-8H4z"/><path d="M4 13c1.3 0 1.3 1 2.7 1S8 13 9.3 13s1.3 1 2.7 1 1.3-1 2.7-1 1.3 1 2.6 1"/><path d="M12 13V8M8 13V9.5M16 13V9.5"/><circle cx="12" cy="6" r="1" fill="currentColor"/><circle cx="8" cy="7.5" r="1" fill="currentColor"/><circle cx="16" cy="7.5" r="1" fill="currentColor"/></svg></span>CumpliYape</div>
           <div class="topbar-actions">
+            <button class="icon-btn" id="upcomingBtn" title="Recordatorio de cumplea&#xF1;os">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 21h16v-9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2z"/><path d="M4 15c1.5 0 1.5 1.2 3 1.2s1.5-1.2 3-1.2 1.5 1.2 3 1.2 1.5-1.2 3-1.2 1.5 1.2 3 1.2"/><path d="M8 10V6M12 10V5M16 10V6"/><circle cx="8" cy="3.5" r=".6" fill="currentColor"/><circle cx="12" cy="2.6" r=".6" fill="currentColor"/><circle cx="16" cy="3.5" r=".6" fill="currentColor"/></svg>
+              <span class="dot-badge"></span>
+            </button>
             <button class="icon-btn" id="exportBtn" title="Exportar imagen">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </button>
-            <button class="icon-btn" id="waBtn" title="Recordatorio">
+            <button class="icon-btn" id="waBtn" title="Recordatorio de Abono">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               <span class="dot-badge"></span>
-            </button>
-            <button class="icon-btn" id="openExcelBtn" title="Cargar Excel">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </button>
             <input type="file" id="excelFile" accept=".xlsx, .xls">
           </div>
@@ -648,41 +654,34 @@
               <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
               <div class="bill-photo" id="birthdayPhoto"></div>
             </div>
-            <div class="bill-info">
-              <div class="bill-name" id="birthdayTitle">Cumpleaños</div>
-              <div class="bill-date" id="birthdaySubtitle">Carga tu Excel</div>
-              <div class="bill-amount-row">
-                <span class="bill-currency">S/</span>
-                <span class="bill-amount" id="totalAmount">0</span>
+            <div class="bill-main">
+              <div class="bill-head">
+                <div class="bill-info">
+                  <div class="bill-name" id="birthdayTitle">Cumplea&#xF1;os</div>
+                  <div class="bill-date" id="birthdaySubtitle">Carga tu Excel</div>
+                </div>
+                <div class="bill-amount-box" title="Monto recaudado">
+                  <span class="bill-currency">S/</span>
+                  <span class="bill-amount" id="totalAmount">0</span>
+                </div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+                <span class="progress-pct" id="pctLabel">0%</span>
+              </div>
+              <div class="progress-labels">
+                <span id="payersLabel">0 de 0 personas</span>
+                <span id="pendingLabel">Faltan S/0</span>
               </div>
             </div>
-            <div class="bill-gift" title="Meta de recaudo">🎁</div>
-          </div>
-          <div class="progress-row">
-            <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-            <span class="progress-pct" id="pctLabel">0%</span>
-          </div>
-          <div class="progress-labels">
-            <span id="payersLabel">0 de 0 personas aportaron</span>
-            <span id="pendingLabel">Faltan S/0</span>
           </div>
         </div>
-
-        <button class="reminder-banner" id="upcomingBanner" style="display:none;">
-          <span class="reminder-icon">
-            <svg width="15" height="15" viewBox="0 0 32 32" fill="currentColor"><path d="M16.04 3C9.37 3 3.96 8.4 3.96 15.06c0 2.24.62 4.34 1.7 6.14L3 29l8.02-2.6a12.9 12.9 0 0 0 5.02 1c6.67 0 12.08-5.4 12.08-12.06C28.12 8.4 22.7 3 16.04 3z"/></svg>
-          </span>
-          <span class="reminder-text">
-            <span class="reminder-label">RECORDATORIO</span>
-            <span class="reminder-details" id="upcomingNames"></span>
-          </span>
-        </button>
 
         <div class="list-head">
           <h2>Lista de aportantes</h2>
           <div class="list-head-right">
             <span class="count" id="peopleCount">0 personas</span>
-            <button class="gear-btn" id="configBtn" title="Configuración">⚙</button>
+            <button class="gear-btn" id="configBtn" title="Configuraci&#xF3;n"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13a7.9 7.9 0 0 0 .1-1 7.9 7.9 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7.5 7.5 0 0 0-1.7-1l-.4-2.5H9.1l-.4 2.5a7.5 7.5 0 0 0-1.7 1l-2.4-1-2 3.4L4.6 11a8 8 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.5 7.5 0 0 0 1.7 1l.4 2.5h3.8l.4-2.5a7.5 7.5 0 0 0 1.7-1l2.4 1 2-3.4z"/></svg></button>
           </div>
         </div>
 
@@ -693,12 +692,6 @@
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
 
-      <div class="action-bar">
-        <button class="btn btn-yape" id="copyBtn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" fill="currentColor"/></svg>
-          Copiar Yape <span class="num">975626524</span>
-        </button>
-      </div>
       <div class="home-indicator"></div>
 
       <!-- MODAL: NUEVO / EDITAR APORTANTE -->
@@ -706,14 +699,14 @@
         <div class="modal-card">
           <div class="modal-header">
             <h3 id="modalTitle">Nuevo aportante</h3>
-            <button class="modal-close" id="personModalClose">✕</button>
+            <button class="modal-close" id="personModalClose">&#xD7;</button>
           </div>
           <div class="modal-body">
             <form class="admin-form" id="adminForm">
               <div class="full photo-field">
                 <label>Foto</label>
                 <div class="photo-picker">
-                  <div class="photo-preview" id="fFotoPreview">📷</div>
+                  <div class="photo-preview" id="fFotoPreview"><svg class="ico" style="width:22px;height:22px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
                   <label class="photo-upload-btn" for="fFoto">Elegir foto</label>
                   <input type="file" id="fFoto" accept="image/*" style="display:none">
                 </div>
@@ -723,12 +716,12 @@
                 <input type="text" id="fName" placeholder="Nombre completo" required>
               </div>
               <div>
-                <label>Fecha cumpleaños</label>
+                <label>Fecha cumplea&#xF1;os</label>
                 <input type="text" id="fDate" placeholder="DD/MM/AAAA">
               </div>
               <div>
-                <label>Teléfono</label>
-                <input type="text" id="fPhone" placeholder="Número">
+                <label>Tel&#xE9;fono</label>
+                <input type="text" id="fPhone" placeholder="N&#xFA;mero">
               </div>
               <div>
                 <label>Cuota (S/)</label>
@@ -740,7 +733,7 @@
               </div>
               <input type="hidden" id="fState" value="2">
               <div class="btn-row">
-                <button type="submit" class="btn-add" id="adminFormSubmit">Añadir</button>
+                <button type="submit" class="btn-add" id="adminFormSubmit">A&#xF1;adir</button>
                 <button type="button" class="btn-cancel" id="personModalCancel">Cancelar</button>
               </div>
             </form>
@@ -748,30 +741,30 @@
         </div>
       </div>
 
-      <!-- MODAL: CONFIGURACIÓN -->
+      <!-- MODAL: CONFIGURACI&#xD3;N -->
       <div class="modal-overlay" id="configModal">
         <div class="modal-card">
           <div class="modal-header">
-            <h3>Configuración</h3>
-            <button class="modal-close" id="configModalClose">✕</button>
+            <h3>Configuraci&#xF3;n</h3>
+            <button class="modal-close" id="configModalClose">&#xD7;</button>
           </div>
           <div class="modal-body">
             <div class="config-section" id="adminConfigList"></div>
             <div style="padding:0 16px 20px;">
-              <button class="btn-add" style="width:100%;padding:10px;border:none;border-radius:12px;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;background:var(--purple);color:#fff;cursor:pointer" id="saveConfigBtn">Guardar configuración</button>
+              <button class="btn-add" style="width:100%;padding:10px;border:none;border-radius:12px;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;background:var(--purple);color:#fff;cursor:pointer" id="saveConfigBtn">Guardar configuraci&#xF3;n</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="toast" id="toast">Copiado ✓</div>
+      <div class="toast" id="toast">Copiado &#x2713;</div>
     </div>
   </div>
-  <div class="credit">Las pestañas "otros" se ignoran automáticamente.</div>
+  <div class="credit">Las pesta&#xF1;as "otros" se ignoran autom&#xE1;ticamente.</div>
 </div>
 
 <script>
-const YAPE_NUM = "975626524";
+const YAPE_NUM = "951236625";
 const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
 let excelTabsData = {};
@@ -799,7 +792,7 @@ let kebabMenuEl = null;
   }
 })();
 
-// --- Animación de conteo para números ---
+// --- Animaci\u00F3n de conteo para n\u00FAmeros ---
 function animateNumber(el, to) {
   const from = parseFloat(el.dataset.val || el.textContent) || 0;
   to = Math.round(to);
@@ -816,7 +809,7 @@ function animateNumber(el, to) {
   requestAnimationFrame(step);
 }
 
-// --- Confetti de celebración ---
+// --- Confetti de celebraci\u00F3n ---
 function launchConfetti() {
   const colors = ['#6C3CE0', '#8B5CF6', '#1FAE59', '#F5A623', '#F472B6', '#EF4444'];
   const container = document.getElementById('captureTarget') || document.body;
@@ -842,7 +835,7 @@ function launchConfetti() {
   }
 }
 
-// --- Comprimir foto seleccionada a un dataURL pequeño ---
+// --- Comprimir foto seleccionada a un dataURL peque\u00F1o ---
 function fileToCompressedDataURL(file, maxDim, quality) {
   maxDim = maxDim || 160;
   quality = quality || 0.72;
@@ -869,7 +862,7 @@ function fileToCompressedDataURL(file, maxDim, quality) {
 
 function updatePhotoPreview(dataUrl) {
   const el = document.getElementById('fFotoPreview');
-  el.innerHTML = dataUrl ? `<img src="${dataUrl}" alt="">` : '📷';
+  el.innerHTML = dataUrl ? `<img src="${dataUrl}" alt="">` : ICON.camera;
 }
 
 document.getElementById('fFoto').addEventListener('change', async (e) => {
@@ -886,12 +879,70 @@ document.getElementById('fFoto').addEventListener('change', async (e) => {
 const SERVER_PORT = 8765;
 
 async function serverSave(data) {
-  await fetch(`http://localhost:${SERVER_PORT}/api/save`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({data}) });
+  const resp = await fetch(`http://localhost:${SERVER_PORT}/api/save`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({data}) });
+  if (!resp.ok) throw new Error(`Server save failed: ${resp.status}`);
 }
 
 const palette = ["#6C3CE0","#1FAE59","#F5A623","#F472B6","#8B5CF6","#4A2899"];
 const initials = s => s.slice(0,2).toUpperCase();
 const colorFor = i => palette[i % palette.length];
+
+// Escapa texto antes de insertarlo con innerHTML (evita XSS desde el Excel)
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Iconos SVG: se ven igual en cualquier equipo, sin depender de fuentes de emoji
+const ICON = {
+  cake: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21h16v-8H4z"/><path d="M4 13c1.3 0 1.3 1 2.7 1S8 13 9.3 13s1.3 1 2.7 1 1.3-1 2.7-1 1.3 1 2.6 1"/><path d="M12 13V8M8 13V9.5M16 13V9.5"/><circle cx="12" cy="6" r="1" fill="currentColor"/><circle cx="8" cy="7.5" r="1" fill="currentColor"/><circle cx="16" cy="7.5" r="1" fill="currentColor"/></svg>',
+  crown: '<svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M4 19h16l1.3-10.2-5.1 3.4L12 5 7.8 12.2 2.7 8.8z"/></svg>',
+  cal: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>',
+  phone: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
+  check: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+  cross: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  dots: '<svg class="ico" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></svg>',
+  camera: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'
+};
+
+// Nombre del grupo de WhatsApp configurado para la pestaña activa (hoja otros, columna Grupo)
+function currentGrupo() {
+  const cfg = tabConfig[currentTab];
+  return (cfg && cfg.grupo) ? String(cfg.grupo).trim() : '';
+}
+// Enlace de invitación del grupo (hoja otros, columna Enlace)
+function currentEnlace() {
+  const cfg = tabConfig[currentTab];
+  return (cfg && cfg.enlace) ? String(cfg.enlace).trim() : '';
+}
+// Normaliza un enlace de invitación de WhatsApp; devuelve '' si no lo es
+function waInviteLink(raw) {
+  const s = String(raw || '').trim();
+  if (!s || !/chat\.whatsapp\.com/i.test(s)) return '';
+  return /^https?:\/\//i.test(s) ? s : 'https://' + s.replace(/^\/+/, '');
+}
+// Limpia un texto para usarlo como nombre de archivo
+function safeFileName(s) {
+  return String(s || '').replace(/[\\/:*?"<>|]+/g, '_').replace(/\s+/g, '_').trim() || 'Recaudo';
+}
+// Envía el aviso: si hay enlace de invitación, copia el mensaje y abre ESE grupo directo;
+// si no, abre el selector de WhatsApp con el mensaje y recuerda el nombre del grupo.
+function openWhatsApp(msg) {
+  const enlace = waInviteLink(currentEnlace());
+  if (enlace) {
+    try { if (navigator.clipboard) navigator.clipboard.writeText(msg); } catch (e) {}
+    showToast('Mensaje copiado. Pégalo (mantener presionado → Pegar) en el grupo y envía.');
+    window.open(enlace, '_blank');
+    return;
+  }
+  const grupo = currentGrupo();
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  if (grupo) showToast('Enviar al grupo: ' + grupo);
+}
 
 const listEl = document.getElementById('list');
 const tabsContainer = document.getElementById('tabsContainer');
@@ -925,107 +976,71 @@ function render(){
   listEl.innerHTML = "";
   const people = excelTabsData[currentTab] || [];
 
-  // Buscar si hay alguien en estado 0 (Cumpleaños) en la pestaña activa
+  // Buscar si hay alguien en estado 0 (Cumplea\u00F1os) en la pesta\u00F1a activa
   const birthdayPerson = people.find(p => parseInt(p.state) === 0);
   const titleEl = document.getElementById('birthdayTitle');
   const subtitleEl = document.getElementById('birthdaySubtitle');
   const photoEl = document.getElementById('birthdayPhoto');
   if (birthdayPerson) {
-    titleEl.innerHTML = `${birthdayPerson.n} <span class="crown-mini">👑</span>`;
-    subtitleEl.textContent = birthdayPerson.d && birthdayPerson.d !== 'S/F' ? `Cumple el ${formatDateLong(birthdayPerson.d)}` : 'Sin fecha registrada';
+    titleEl.textContent = birthdayPerson.n;
+    subtitleEl.textContent = birthdayPerson.d && birthdayPerson.d !== 'S/F' ? birthdayPerson.d : 'Sin fecha registrada';
     photoEl.innerHTML = birthdayPerson.foto
-      ? `<img src="${birthdayPerson.foto}" alt="">`
-      : `<div class="photo-fallback" style="background:${colorFor(0)}">${initials(birthdayPerson.n)}</div>`;
+      ? `<img src="${esc(birthdayPerson.foto)}" alt="">`
+      : `<div class="photo-fallback" style="background:${colorFor(0)}">${esc(initials(birthdayPerson.n))}</div>`;
   } else {
-    titleEl.innerHTML = `Sin cumples 🎈`;
-    subtitleEl.textContent = 'Marca a un cumpleañero en la lista';
-    photoEl.innerHTML = `<div class="photo-fallback" style="background:var(--purple-2)">🎂</div>`;
+    titleEl.textContent = `Sin cumples`;
+    subtitleEl.textContent = 'Marca a un cumplea\u00F1ero en la lista';
+    photoEl.innerHTML = `<div class="photo-fallback" style="background:var(--purple-2)">${ICON.cake}</div>`;
   }
 
   const daysSinceBDay = birthdayPerson ? daysSinceLastBDay(birthdayPerson.d) : 0;
 
   people.forEach((p, i) => {
-    const stateNum = parseInt(p.state); // 0: Cumpleaños, 1: Pagó, 2: No Pagó
+    const stateNum = parseInt(p.state); // 0: Cumplea\u00F1os, 1: Pag\u00F3, 2: No Pag\u00F3
     const row = document.createElement('div');
 
     let highlightClass = (stateNum === 0) ? 'birthday-highlight' : '';
-    row.className = `row state-${stateNum} ${highlightClass}`;
+    // Color de fila: pag\u00F3 = verde; pendiente = naranja; pendiente y ya pas\u00F3 el cumplea\u00F1os = rojo
+    const bdayPassed = daysSinceBDay > 0;
+    let payClass = '';
+    if (stateNum === 1) payClass = 'row-paid';
+    else if (stateNum === 2) payClass = bdayPassed ? 'row-overdue' : 'row-pending';
+    row.className = `row state-${stateNum} ${highlightClass} ${payClass}`;
 
     const moraPD = (tabConfig[currentTab]?.moraPorDia) || 0;
     const amt = stateNum === 1
       ? (p.cuota || 0) + (p.mora || 0)
       : (p.cuota || 0) + moraPD * daysSinceBDay;
 
-    const pillLabel = stateNum === 0 ? '' : (stateNum === 1 ? '✓' : '✕');
-    const pillTitle = stateNum === 0 ? 'Cumpleañero (bloqueado)' : (stateNum === 1 ? 'Pagó' : 'Pendiente');
+    const pillLabel = stateNum === 0 ? '' : (stateNum === 1 ? ICON.check : ICON.cross);
+    const pillTitle = stateNum === 0 ? 'Cumplea\u00F1ero (bloqueado)' : (stateNum === 1 ? 'Pag\u00F3' : 'Pendiente');
     const avatarInner = p.foto
-      ? `<img src="${p.foto}" class="avatar-img" alt="">`
-      : initials(p.n);
+      ? `<img src="${esc(p.foto)}" class="avatar-img" alt="">`
+      : esc(initials(p.n));
 
     row.innerHTML = `
-      ${stateNum === 0 ? '<span class="crown">👑</span>' : ''}
+      ${stateNum === 0 ? '<span class="crown">' + ICON.crown + '</span>' : ''}
       <div class="avatar" style="${p.foto ? '' : `background:${colorFor(i)}`}">
         ${avatarInner}
       </div>
       <div class="row-mid">
-        <div class="row-name">${p.n}</div>
-        <div class="row-meta">🗓 ${p.d} · 📞 ${p.tel || 'S/N'}</div>
+        <div class="row-name">${esc(p.n)}</div>
+        <div class="row-meta">${ICON.cal} ${esc(p.d)} \u00B7 ${ICON.phone} ${esc(p.tel || 'S/N')}</div>
       </div>
       <div class="row-right">
         <span class="amt">S/${amt}</span>
-        <button class="state-pill state-${stateNum}" data-i="${i}" title="${pillTitle}" aria-label="Cambiar estado de ${p.n}">${pillLabel}</button>
-        <button class="kebab-btn" data-i="${i}" aria-label="Más opciones">⋮</button>
+        <button class="state-pill state-${stateNum}" data-i="${i}" title="${pillTitle}" aria-label="Cambiar estado de ${esc(p.n)}">${pillLabel}</button>
+        <button class="kebab-btn" data-i="${i}" aria-label="M\u00E1s opciones">${ICON.dots}</button>
       </div>
     `;
     row.style.animationDelay = Math.min(i * 45, 500) + 'ms';
     listEl.appendChild(row);
   });
 
-  // Single click: alterna entre pagó (1) y no pagó (2)
-  // Doble click: marca como cumpleañero (0); si ya es cumpleañero, revierte a no pagó (2)
+  // Un clic alterna al instante pag\u00F3 (1) \u2194 no pag\u00F3 (2).
+  // Marcar/quitar cumplea\u00F1ero (0) se hace desde el men\u00FA \u22EE (sin retardo de doble clic).
   listEl.querySelectorAll('.state-pill').forEach(btn=>{
-    let clickTimer = null;
-    btn.addEventListener('click', ()=>{
-      const i = +btn.dataset.i;
-      const target = excelTabsData[currentTab][i];
-      if (clickTimer) {
-        clearTimeout(clickTimer);
-        clickTimer = null;
-        if (parseInt(target.state) === 0) {
-          target.state = 2;
-          target.mora = 0;
-        } else {
-          target.state = 0;
-          target.mora = 0;
-        }
-        render();
-        updateSummary();
-        saveExcel();
-        return;
-      }
-      clickTimer = setTimeout(()=>{
-        clickTimer = null;
-        if (parseInt(target.state) === 0) return; // el cumpleañero solo cambia con doble click
-        const wasPending = target.state == 2;
-        if (target.state == 2) {
-          const moraPD = (tabConfig[currentTab]?.moraPorDia) || 0;
-          const bp = (excelTabsData[currentTab] || []).find(x => parseInt(x.state) === 0);
-          const days = bp ? daysSinceLastBDay(bp.d) : 0;
-          target.mora = moraPD * days;
-          target.state = 1;
-        } else {
-          target.state = 2;
-        }
-        render();
-        updateSummary();
-        saveExcel();
-        if (wasPending && target.state == 1) {
-          const people = excelTabsData[currentTab] || [];
-          const pending = people.filter(p => parseInt(p.state) === 2);
-          if (pending.length === 0) sendMissionComplete();
-        }
-      }, 300);
-    });
+    btn.addEventListener('click', ()=> togglePaid(+btn.dataset.i));
   });
 
   listEl.querySelectorAll('.kebab-btn').forEach(btn=>{
@@ -1049,24 +1064,29 @@ function openKebabMenu(btn, i) {
   const screen = document.getElementById('captureTarget');
   const btnRect = btn.getBoundingClientRect();
   const screenRect = screen.getBoundingClientRect();
+  const isBday = parseInt((excelTabsData[currentTab][i] || {}).state) === 0;
   const menu = document.createElement('div');
   menu.className = 'kebab-menu';
-  menu.innerHTML = `<button type="button" data-act="edit">✎ Editar</button><button type="button" data-act="del">✕ Eliminar</button>`;
+  menu.innerHTML = `<button type="button" data-act="bday">${isBday ? 'Quitar cumplea\u00F1ero' : ICON.crown + ' Cumplea\u00F1ero'}</button><button type="button" data-act="edit">Editar</button><button type="button" data-act="del">Eliminar</button>`;
 
-  const spaceBelow = screenRect.bottom - btnRect.bottom;
-  if (spaceBelow > 100) {
-    menu.style.top = (btnRect.bottom - screenRect.top + 4) + 'px';
-  } else {
-    menu.style.top = (btnRect.top - screenRect.top - 92) + 'px';
-  }
   menu.style.right = (screenRect.right - btnRect.right) + 'px';
 
   menu.addEventListener('click', e => {
     const act = e.target.closest('button')?.dataset.act;
+    if (act === 'bday') { closeKebabMenu(); toggleBirthday(i); }
     if (act === 'edit') { closeKebabMenu(); openPersonModal(i); }
     if (act === 'del') { closeKebabMenu(); deletePerson(i); }
   });
   screen.appendChild(menu);
+
+  // Posicionar seg\u00FAn el alto real del men\u00FA: debajo del bot\u00F3n si cabe, si no encima.
+  const menuH = menu.offsetHeight;
+  const spaceBelow = screenRect.bottom - btnRect.bottom;
+  if (spaceBelow > menuH + 8) {
+    menu.style.top = (btnRect.bottom - screenRect.top + 4) + 'px';
+  } else {
+    menu.style.top = (btnRect.top - screenRect.top - menuH - 4) + 'px';
+  }
   kebabMenuEl = menu;
   setTimeout(() => document.addEventListener('click', outsideKebabClose, { once: true }), 0);
 }
@@ -1149,8 +1169,8 @@ function updateSummary(){
   fillEl.style.width = pct + '%';
   fillEl.classList.toggle('complete', pct === 100 && goalCount > 0);
   document.getElementById('pctLabel').textContent = `${pct}%`;
-  document.getElementById('payersLabel').textContent = `${paidCount} de ${goalCount} personas aportaron`;
-  document.getElementById('pendingLabel').textContent = pendingCount === 0 && goalCount > 0 ? '¡Completo! 🎉' : `Faltan S/${remaining}`;
+  document.getElementById('payersLabel').textContent = `${paidCount} de ${goalCount} personas`;
+  document.getElementById('pendingLabel').textContent = pendingCount === 0 && goalCount > 0 ? '\u00A1Completo!' : `Faltan S/${remaining}`;
   document.getElementById('peopleCount').textContent = `${people.length} personas`;
 
   const waBtn = document.getElementById('waBtn');
@@ -1160,17 +1180,17 @@ function updateSummary(){
   lastPct = pct;
 }
 
-// --- PROCESAMIENTO DEL WORKBOOK (extraído para reuso) ---
+// --- PROCESAMIENTO DEL WORKBOOK (extra\u00EDdo para reuso) ---
 function processWorkbook(data, dataType) {
   const workbook = XLSX.read(data, {type: dataType || 'array', cellDates: true, raw: false});
 
   const headerKeywords = {
     n: ['nombre','name','nombres','names','integrante','integrantes','persona','personas','colaborador','miembro','participante'],
-    d: ['fecha','date','cumpleaños','cumple','birthday','nacimiento','día','dia','nac'],
-    state: ['estado','state','status','pagó','pago','pagado','paid','situación','situacion','yapeó','yapeo'],
-    tel: ['teléfono','telefono','tel','telefóno','celular','cel','whatsapp','wa','contacto','número','numero','celular','móvil','movil'],
-    cuota: ['cuota','monto','aporte','contribucion','contribución'],
-    mora: ['mora','morosidad','penalidad','recargo','interes','interés'],
+    d: ['fecha','date','cumplea\u00F1os','cumple','birthday','nacimiento','d\u00EDa','dia','nac'],
+    state: ['estado','state','status','pag\u00F3','pago','pagado','paid','situaci\u00F3n','situacion','yape\u00F3','yapeo'],
+    tel: ['tel\u00E9fono','telefono','tel','telef\u00F3no','celular','cel','whatsapp','wa','contacto','n\u00FAmero','numero','m\u00F3vil','movil'],
+    cuota: ['cuota','monto','aporte','contribucion','contribuci\u00F3n'],
+    mora: ['mora','morosidad','penalidad','recargo','interes','inter\u00E9s'],
     foto: ['foto','photo','imagen','picture','avatar','pic']
   };
 
@@ -1243,7 +1263,9 @@ function processWorkbook(data, dataType) {
         const name = String(row[0]).trim();
         const cuota = parseFloat(row[1]) || 0;
         const moraPD = parseFloat(row[2]) || 0;
-        if (name) tabConfig[name] = { cuota, moraPorDia: moraPD };
+        const grupo = row[3] != null ? String(row[3]).trim() : '';
+        const enlace = row[4] != null ? String(row[4]).trim() : '';
+        if (name) tabConfig[name] = { cuota, moraPorDia: moraPD, grupo, enlace };
       }
       return;
     }
@@ -1327,61 +1349,87 @@ function processWorkbook(data, dataType) {
     render();
     updateSummary();
     checkUpcoming();
-    showToast("¡Pestañas cargadas con éxito! 🚀");
+    showToast("\u00A1Pesta\u00F1as cargadas con \u00E9xito!");
   } else {
-    showToast("No se encontraron registros válidos en el archivo.");
+    showToast("No se encontraron registros v\u00E1lidos en el archivo.");
   }
 }
 
-async function openExcel() {
+// Envoltura con manejo de errores visible: si XLSX no carg\u00F3 o el archivo falla, avisa.
+function loadWorkbook(bytes, type) {
+  if (typeof XLSX === 'undefined') {
+    showToast('No se carg\u00F3 la librer\u00EDa de Excel (revisa tu conexi\u00F3n)');
+    return;
+  }
   try {
-    const [handle] = await window.showOpenFilePicker({
-      id: 'cumple-excel',
-      types: [{ description: 'Excel', accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] } }],
-      multiple: false,
-    });
+    processWorkbook(bytes, type);
+  } catch (err) {
+    console.error('Error al leer el Excel:', err);
+    showToast('No se pudo leer el Excel: ' + (err && err.message ? err.message : err));
+  }
+}
+
+function openExcel() {
+  // La File System Access API (showOpenFilePicker) solo funciona en http(s).
+  // En file:// (abrir por doble clic) Chrome la bloquea; ademas, usarla tras un
+  // await "gasta" el clic del usuario y el navegador bloquea el respaldo.
+  // Por eso, si no es usable, abrimos el selector clasico de inmediato (mismo clic).
+  const canUseFS = typeof window.showOpenFilePicker === 'function' && location.protocol !== 'file:';
+  if (!canUseFS) {
+    document.getElementById('excelFile').click();
+    return;
+  }
+  window.showOpenFilePicker({
+    id: 'cumple-excel',
+    types: [{ description: 'Excel', accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] } }],
+    multiple: false,
+  }).then(async ([handle]) => {
     excelFileHandle = handle;
     const file = await handle.getFile();
     const reader = new FileReader();
-    reader.onload = function(e) { processWorkbook(new Uint8Array(e.target.result)); };
+    reader.onload = function(e) { loadWorkbook(new Uint8Array(e.target.result)); };
     reader.readAsArrayBuffer(file);
-  } catch (err) {
-    if (err.name === 'AbortError') return;
+  }).catch((err) => {
+    if (err && err.name === 'AbortError') return;
     document.getElementById('excelFile').click();
-  }
+  });
 }
-
-document.getElementById('openExcelBtn').addEventListener('click', openExcel);
 
 document.getElementById('excelFile').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(e) { processWorkbook(new Uint8Array(e.target.result)); };
+  reader.onload = function(e) { loadWorkbook(new Uint8Array(e.target.result)); };
   reader.readAsArrayBuffer(file);
 });
 
 // --- RENDERIZADO INICIAL ---
 function renderEmptyState() {
   document.getElementById('birthdayTitle').innerHTML = 'Carga tu Excel';
-  document.getElementById('birthdaySubtitle').textContent = 'Usa el botón de Excel arriba';
-  document.getElementById('birthdayPhoto').innerHTML = `<div class="photo-fallback" style="background:var(--purple-2)">🎈</div>`;
+  document.getElementById('birthdaySubtitle').textContent = 'Toca el centro para cargar';
+  document.getElementById('birthdayPhoto').innerHTML = `<div class="photo-fallback" style="background:var(--purple-2)">${ICON.cake}</div>`;
   document.getElementById('totalAmount').textContent = '0';
   document.getElementById('progressFill').style.width = '0%';
   document.getElementById('pctLabel').textContent = '0%';
-  document.getElementById('payersLabel').textContent = '0 de 0 personas aportaron';
+  document.getElementById('payersLabel').textContent = '0 de 0 personas';
   document.getElementById('pendingLabel').textContent = 'Esperando...';
   document.getElementById('peopleCount').textContent = '0 personas';
   document.getElementById('list').innerHTML = `
-    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:200px; color:var(--muted); font-size:13px; text-align:center; gap:8px;">
+    <div id="emptyLoad" role="button" tabindex="0" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:200px; color:var(--muted); font-size:13px; text-align:center; gap:8px; cursor:pointer;">
       <svg class="empty-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      Sube tu archivo Excel (.xlsx) con el ícono de arriba
+      Sube tu archivo Excel (.xlsx)
     </div>`;
+  const emptyLoad = document.getElementById('emptyLoad');
+  if (emptyLoad) {
+    emptyLoad.addEventListener('click', openExcel);
+    emptyLoad.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openExcel(); } });
+  }
   document.getElementById('tabsContainer').innerHTML = '';
-  document.getElementById('upcomingBanner').style.display = 'none';
+  const ub = document.getElementById('upcomingBtn');
+  if (ub) { ub.classList.remove('has-pending'); ub.title = 'Recordatorio de cumplea\u00F1os'; }
 }
 
-// --- INICIO: intentar servidor local, si no, mostrar estado vacío ---
+// --- INICIO: intentar servidor local, si no, mostrar estado vac\u00EDo ---
 async function initApp() {
   try {
     const resp = await fetch(`http://localhost:${SERVER_PORT}/api/read`);
@@ -1389,7 +1437,7 @@ async function initApp() {
       const json = await resp.json();
       if (json.ok && json.data) {
         const bytes = Uint8Array.from(atob(json.data), c => c.charCodeAt(0));
-        processWorkbook(bytes, 'array');
+        loadWorkbook(bytes, 'array');
         return;
       }
     }
@@ -1431,7 +1479,7 @@ document.getElementById('exportBtn').addEventListener('click', () => {
     listClone.style.paddingBottom = '0';
   }
 
-  // Obtener datos del cumpleañero
+  // Obtener datos del cumplea\u00F1ero
   const people = excelTabsData[currentTab] || [];
   const birthday = people.find(p => parseInt(p.state) === 0);
   const yapeDisplay = birthday && birthday.tel ? birthday.tel : YAPE_NUM;
@@ -1440,7 +1488,7 @@ document.getElementById('exportBtn').addEventListener('click', () => {
   const footer = document.createElement('div');
   footer.style.cssText = 'padding:16px 20px 20px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(0,0,0,.06);margin-top:4px;';
   footer.innerHTML = `
-    <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:#8A7AAE;">Yapea al cumpleañero</span>
+    <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:#8A7AAE;">Yapea al cumplea\u00F1ero</span>
     <span id="exportNum" style="font-size:20px;font-family:'Sora',sans-serif;font-weight:800;color:#6C3CE0;letter-spacing:.3px;">${yapeDisplay}</span>
   `;
   clone.appendChild(footer);
@@ -1454,7 +1502,7 @@ document.getElementById('exportBtn').addEventListener('click', () => {
   }).then(canvas => {
     document.body.removeChild(wrapper);
     const link = document.createElement('a');
-    link.download = `Recaudo_${currentTab}.png`;
+    link.download = `Recaudo_${safeFileName(currentGrupo() || currentTab)}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
   }).catch(() => {
@@ -1468,15 +1516,6 @@ function showToast(msg){
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 2000);
 }
-
-document.getElementById('copyBtn').addEventListener('click', async ()=>{
-  try{
-    await navigator.clipboard.writeText(YAPE_NUM);
-    showToast('Número copiado ✓');
-  }catch(e){
-    showToast(YAPE_NUM);
-  }
-});
 
 function formatDateShort(dateStr) {
   if (!dateStr || dateStr === 'S/F') return '';
@@ -1516,17 +1555,18 @@ function checkUpcoming() {
     if (d !== null && d < minDays) minDays = d;
     return d !== null;
   });
-  const banner = document.getElementById('upcomingBanner');
-  const namesEl = document.getElementById('upcomingNames');
+  const btn = document.getElementById('upcomingBtn');
+  if (!btn) return;
   if (upcoming.length === 0 || minDays === Infinity) {
-    banner.style.display = 'none';
+    btn.classList.remove('has-pending');
+    btn.title = 'Recordatorio de cumplea\u00F1os';
     return;
   }
   const next = upcoming.filter(p => daysUntilBDay(p.d) === minDays);
-  banner.style.display = 'flex';
   const names = next.map(p => p.n).join(', ');
   const fecha = formatDateFull(next[0].d);
-  namesEl.textContent = `${names} ${fecha} (${minDays} día${minDays === 1 ? '' : 's'} para cumplir)`;
+  btn.classList.add('has-pending');
+  btn.title = `Recordatorio de cumplea\u00F1os \u00B7 ${names} ${fecha} (${minDays} d\u00EDa${minDays === 1 ? '' : 's'})`;
 }
 
 function formatDateFull(dateStr) {
@@ -1539,11 +1579,11 @@ function formatDateFull(dateStr) {
 }
 
 function missionCompleteMsg(nameBirthday) {
-  return `*¡Misión Cumplida!*
+  return `*\u00A1Misi\u00F3n Cumplida!*
 
-¡Todos yapearon a *${nameBirthday}*!
+\u00A1Todos yapearon a *${nameBirthday}*!
 
-Gracias por sumarte con tanta buena onda y hacer posible este objetivo, esto demuestra el gran cariño que le tenemos.
+Gracias por sumarte con tanta buena onda y hacer posible este objetivo, esto demuestra el gran cari\u00F1o que le tenemos.
 
 Mil gracias por hacerlo realidad`;
 }
@@ -1551,14 +1591,14 @@ Mil gracias por hacerlo realidad`;
 function sendMissionComplete() {
   const people = excelTabsData[currentTab] || [];
   const birthdayPerson = people.find(p => parseInt(p.state) === 0);
-  const nameBirthday = birthdayPerson ? birthdayPerson.n : "el cumpleañero";
-  window.open(`https://wa.me/?text=${encodeURIComponent(missionCompleteMsg(nameBirthday))}`, '_blank');
+  const nameBirthday = birthdayPerson ? birthdayPerson.n : "el cumplea\u00F1ero";
+  openWhatsApp(missionCompleteMsg(nameBirthday));
 }
 
 document.getElementById('waBtn').addEventListener('click', ()=>{
   const people = excelTabsData[currentTab] || [];
   const birthdayPerson = people.find(p=> parseInt(p.state) === 0);
-  const nameBirthday = birthdayPerson ? birthdayPerson.n : "el cumpleañero";
+  const nameBirthday = birthdayPerson ? birthdayPerson.n : "el cumplea\u00F1ero";
   const numBirthday = birthdayPerson && birthdayPerson.tel ? birthdayPerson.tel : YAPE_NUM;
   const pendientes = people.filter(p=> parseInt(p.state) === 2);
 
@@ -1566,12 +1606,12 @@ document.getElementById('waBtn').addEventListener('click', ()=>{
   if(pendientes.length === 0){
     msg = missionCompleteMsg(nameBirthday);
   }else{
-    msg = `*¡Recordatorio!*\n\n${pendientes.map(p => `${p.n} — S/${calcPersonAmount(p)}`).join('\n')}\n\nYapear a *${nameBirthday}* al ${numBirthday}`;
+    msg = `*\u00A1Recordatorio!*\n\n${pendientes.map(p => `${p.n} \u2014 S/${calcPersonAmount(p)}`).join('\n')}\n\nYapear a *${nameBirthday}* al ${numBirthday}`;
   }
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  openWhatsApp(msg);
 });
 
-document.getElementById('upcomingBanner').addEventListener('click', ()=>{
+document.getElementById('upcomingBtn').addEventListener('click', ()=>{
   const people = excelTabsData[currentTab] || [];
   let minDays = Infinity;
   const upcoming = people.filter(p => {
@@ -1579,10 +1619,14 @@ document.getElementById('upcomingBanner').addEventListener('click', ()=>{
     if (d !== null && d < minDays) minDays = d;
     return d !== null;
   });
-  if (upcoming.length === 0 || minDays === Infinity) return;
+  if (upcoming.length === 0 || minDays === Infinity) {
+    showToast('No hay cumplea\u00F1os pr\u00F3ximos');
+    return;
+  }
   const next = upcoming.filter(p => daysUntilBDay(p.d) === minDays);
-  const msg = `¡Atención! Se acerca el gran día,\nSólo faltan ${minDays} para el cumpleaño de ${next[0].n},\nNo olvides preparar tu yape.`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  const dias = minDays === 1 ? '1 d\u00EDa' : `${minDays} d\u00EDas`;
+  const msg = `\u{1F6A8} *\u00A1ATENCI\u00D3N, GRUPO!* \u{1F6A8}\n\u23F3 \u00A1Empieza la cuenta regresiva! \n\u{1F382} Solo faltan *${dias}* para el gran cumplea\u00F1os de *${next[0].n}*\n\u{1F437} Vayan rompiendo el chanchito \n\u{1F4F2} preparando sus Yapes \n\u{1F973} porque este a\u00F1o se celebra a lo grande.`;
+  openWhatsApp(msg);
 });
 
 function tickClock(){
@@ -1616,7 +1660,7 @@ function openPersonModal(i) {
   document.body.style.overflow = 'hidden';
   document.getElementById('personModal').classList.add('open');
   document.getElementById('modalTitle').textContent = editingIndex !== null ? 'Editar aportante' : 'Nuevo aportante';
-  document.getElementById('adminFormSubmit').textContent = editingIndex !== null ? 'Actualizar' : 'Añadir';
+  document.getElementById('adminFormSubmit').textContent = editingIndex !== null ? 'Actualizar' : 'A\u00F1adir';
   if (editingIndex !== null) fillForm(excelTabsData[currentTab][editingIndex]);
   else resetForm();
 }
@@ -1645,11 +1689,11 @@ function renderAdminConfig() {
   const container = document.getElementById('adminConfigList');
   const tabs = Object.keys(excelTabsData);
   if (!tabs.length) {
-    container.innerHTML = '<div class="modal-empty">No hay pestañas cargadas</div>';
+    container.innerHTML = '<div class="modal-empty">No hay pesta\u00F1as cargadas</div>';
     return;
   }
   container.innerHTML = tabs.map((tab, idx) => {
-    const cfg = tabConfig[tab] || { cuota: 20, moraPorDia: 0 };
+    const cfg = tabConfig[tab] || { cuota: 20, moraPorDia: 0, grupo: '', enlace: '' };
     return `
       <div class="config-item">
         <span class="tab-label">${tab.replace(/</g,'&lt;')}</span>
@@ -1658,6 +1702,10 @@ function renderAdminConfig() {
           <input type="number" step="0.5" min="0" value="${cfg.cuota}" data-idx="${idx}" data-field="cuota" class="cfg-input">
           <label>Mora</label>
           <input type="number" step="0.5" min="0" value="${cfg.moraPorDia}" data-idx="${idx}" data-field="moraPorDia" class="cfg-input">
+          <label>Grupo</label>
+          <input type="text" value="${esc(cfg.grupo || '')}" data-idx="${idx}" data-field="grupo" class="cfg-input cfg-grupo" placeholder="Nombre del grupo">
+          <label>Enlace</label>
+          <input type="text" value="${esc(cfg.enlace || '')}" data-idx="${idx}" data-field="enlace" class="cfg-input cfg-grupo" placeholder="chat.whatsapp.com/...">
         </div>
       </div>
     `;
@@ -1669,7 +1717,7 @@ function resetForm() {
   document.getElementById('fCuota').value = '0';
   document.getElementById('fMora').value = '0';
   document.getElementById('fState').value = '2';
-  document.getElementById('adminFormSubmit').textContent = 'Añadir';
+  document.getElementById('adminFormSubmit').textContent = 'A\u00F1adir';
   currentPhotoData = '';
   updatePhotoPreview('');
   editingIndex = null;
@@ -1712,17 +1760,49 @@ function submitPerson(e) {
   render();
   updateSummary();
   saveExcel();
-  showToast(wasEditing ? 'Actualizado ✓' : 'Añadido ✓');
+  showToast(wasEditing ? 'Actualizado' : 'A\u00F1adido');
+}
+
+function togglePaid(i) {
+  const target = excelTabsData[currentTab] && excelTabsData[currentTab][i];
+  if (!target || parseInt(target.state) === 0) return; // el cumplea\u00F1ero no cambia aqu\u00ED
+  const wasPending = target.state == 2;
+  if (target.state == 2) {
+    const moraPD = (tabConfig[currentTab]?.moraPorDia) || 0;
+    const bp = (excelTabsData[currentTab] || []).find(x => parseInt(x.state) === 0);
+    const days = bp ? daysSinceLastBDay(bp.d) : 0;
+    target.mora = moraPD * days;
+    target.state = 1;
+  } else {
+    target.state = 2;
+  }
+  render();
+  updateSummary();
+  saveExcel();
+  if (wasPending && target.state == 1) {
+    const pending = (excelTabsData[currentTab] || []).filter(p => parseInt(p.state) === 2);
+    if (pending.length === 0) sendMissionComplete();
+  }
+}
+
+function toggleBirthday(i) {
+  const target = excelTabsData[currentTab] && excelTabsData[currentTab][i];
+  if (!target) return;
+  target.state = parseInt(target.state) === 0 ? 2 : 0;
+  target.mora = 0;
+  render();
+  updateSummary();
+  saveExcel();
 }
 
 function deletePerson(i) {
-  if (!confirm('¿Eliminar esta persona?')) return;
+  if (!confirm('\u00BFEliminar esta persona?')) return;
   excelTabsData[currentTab].splice(i, 1);
   sortByMD(excelTabsData[currentTab]);
   render();
   updateSummary();
   saveExcel();
-  showToast('Eliminado ✓');
+  showToast('Eliminado');
 }
 
 document.getElementById('fabAddBtn').addEventListener('click', () => openPersonModal());
@@ -1739,20 +1819,21 @@ document.getElementById('adminConfigList').addEventListener('change', function(e
     const field = e.target.dataset.field;
     const tab = Object.keys(excelTabsData)[idx];
     if (tab) {
-      if (!tabConfig[tab]) tabConfig[tab] = { cuota: 20, moraPorDia: 0 };
-      tabConfig[tab][field] = parseFloat(e.target.value) || 0;
+      if (!tabConfig[tab]) tabConfig[tab] = { cuota: 20, moraPorDia: 0, grupo: '', enlace: '' };
+      if (field === 'grupo' || field === 'enlace') tabConfig[tab][field] = e.target.value.trim();
+      else tabConfig[tab][field] = parseFloat(e.target.value) || 0;
     }
   }
 });
 document.getElementById('saveConfigBtn').addEventListener('click', function() {
-  otrosData = [['Tab', 'Cuota', 'Mora/Dia']];
+  otrosData = [['Tab', 'Cuota', 'Mora/Dia', 'Grupo', 'Enlace']];
   for (const [tab, cfg] of Object.entries(tabConfig)) {
-    otrosData.push([tab, cfg.cuota, cfg.moraPorDia]);
+    otrosData.push([tab, cfg.cuota, cfg.moraPorDia, cfg.grupo || '', cfg.enlace || '']);
   }
   render();
   updateSummary();
   saveExcel();
-  showToast('Configuración guardada ✓');
+  showToast('Configuraci\u00F3n guardada');
 });
 
 if ('serviceWorker' in navigator) {
